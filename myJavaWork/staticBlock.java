@@ -1,34 +1,78 @@
-class Parent {
-	static String name = "hello";
-	{
-		System.out.println("parent block");
-	}
+
+class ExA {
+
 	static {
-		System.out.println("parent static block");
+		System.out.println("父类--静态代码块");
 	}
 
-	public Parent() {
-		System.out.println("parent constructor");
+	public ExA() {
+		System.out.println("父类--构造函数");
+	}
+
+	{
+		System.out.println("父类--非静态代码块");
 	}
 }
 
-class Child extends Parent {
-	static String childName = "hello";
-	{
-		System.out.println("child block");
-	}
+class ExB extends ExA {
+
 	static {
-		System.out.println("child static block");
+		System.out.println("子类--静态代码块");
 	}
 
-	public Child() {
-		System.out.println("child constructor");
+	{
+		System.out.println("子类--非静态代码块");
+	}
+
+	public ExB() {
+		System.out.println("子类--构造函数");
 	}
 }
 
 public class Main {
 
 	public static void main(String[] args) {
-		new Child();
+		new ExB();
 	}
 }
+
+//非静态代码并不是一定在静态代码之后执行的
+/*
+class ExA {
+	private static ExA a = new ExA();
+
+	static {
+		System.out.println("父类--静态代码");
+	}
+
+	public ExA() {
+		System.out.println("父类--构造函数");
+	}
+
+	{
+		System.out.println("父类--非静态代码块");
+	}
+}
+
+class ExB extends ExA {
+	private static ExB b = new ExB();
+
+	static {
+		System.out.println("子类--静态代码块");
+	}
+
+	{
+		System.out.println("子类--非静态代码块");
+	}
+
+	public ExB() {
+		System.out.println("子类--构造函数");
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		new ExB();
+	}
+}
+*/
