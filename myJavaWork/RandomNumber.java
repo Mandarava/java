@@ -8,9 +8,9 @@ public class Main {
 		long f = System.currentTimeMillis();
 		Random rnd = new Random();
 		Object[] a = new Object[10000];
-		HashSet<Integer> hs = new HashSet<Integer>(); // HashSet×î¼Ñ£¬Êý×é´ÎÖ®£¬ArrayList×î²î
+		HashSet<Integer> hs = new HashSet<Integer>(); // ç”Ÿæˆä¸é‡å¤çš„æ•°å­—æ•ˆçŽ‡ï¼šHashSet>æ•°ç»„>ArrayList>LinkedList
 		for (int i = 0; i < a.length; i++) {
-			int number = rnd.nextInt(200000 - 100000 + 1) + 100000;	//Éú³É10000µ½20000µÄËæ»úÊý
+			int number = rnd.nextInt(200000 - 100000 + 1) + 100000;	//ç”Ÿæˆ10000åˆ°20000çš„éšæœºæ•°
 			if (hs.contains(number))
 				i--;
 			hs.add(number);
