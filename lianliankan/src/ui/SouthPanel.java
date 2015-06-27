@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,7 +26,9 @@ public class SouthPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				try {
+
 					new mainFrame().setVisible(true);
+
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -34,5 +37,8 @@ public class SouthPanel extends JPanel {
 		});
 		this.add(exitButton);
 		this.add(newlyButton);
+		exitButton.setBackground(new Color(250, 250, 250));
+		newlyButton.setBackground(new Color(250, 250, 250));
+		this.setBackground(new Color(216, 191, 216));
 	}
 }
