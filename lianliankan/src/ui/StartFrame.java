@@ -3,6 +3,7 @@ package ui;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,11 +24,14 @@ public class StartFrame extends JFrame {
 
 	GetImage getImg = new GetImage();
 
-	public StartFrame() {
+	public StartFrame() throws Exception {
 		this.setTitle("Java Á¬Á¬¿´");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1000, 700);
-		// this.setResizable(false);
+		int w = (Toolkit.getDefaultToolkit().getScreenSize().width) / 4;
+		int h = (Toolkit.getDefaultToolkit().getScreenSize().height) / 5;
+		this.setLocation(w, h);
+		this.setResizable(false);
 		JButton btnNewButton = new JButton(getImg.getImage(imgDir + "start"
 				+ ".jpg"));
 		btnNewButton.setMargin(new Insets(0, 0, 0, 0));
@@ -43,6 +47,7 @@ public class StartFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				try {
+					StartFrame.this.dispose();
 					new mainFrame().setVisible(true);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -50,6 +55,7 @@ public class StartFrame extends JFrame {
 				}
 			}
 		});
+
 	}
 
 	class ImagePanel extends JPanel {

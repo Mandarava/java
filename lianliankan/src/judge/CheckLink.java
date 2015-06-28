@@ -14,7 +14,7 @@ public class CheckLink {
 	}
 
 	public boolean checkLink() {
-		Horizon horizon = new Horizon(a, b,map);
+		Horizon horizon = new Horizon(a, b, map);
 		Vertical vertical = new Vertical(a, b, map);
 		OneCorner oneCorner = new OneCorner(a, b, map);
 		Scan scan = new TwoCorner(a, b, map);

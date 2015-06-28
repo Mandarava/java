@@ -3,7 +3,7 @@ package judge;
 import java.awt.Point;
 
 public class TwoCorner extends Scan {
-	
+
 	public TwoCorner(Point a, Point b, int[][] map) {
 		super(a, b, map);
 	}
@@ -11,7 +11,7 @@ public class TwoCorner extends Scan {
 	@Override
 	public boolean twoCorner() {
 		Vertical vertical = new Vertical(a, b, map);
-		Horizon horizon = new Horizon(a, b,map);
+		Horizon horizon = new Horizon(a, b, map);
 		super.scan();
 		if (linklist.isEmpty())
 			return false;
@@ -32,4 +32,5 @@ public class TwoCorner extends Scan {
 		}
 		return false;
 	}
+
 }

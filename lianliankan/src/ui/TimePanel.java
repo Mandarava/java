@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-class TimePanel extends JPanel {
+public class TimePanel extends JPanel {
 	int cnt = 0;
 	private static final int W_WIDTH = 1000;
 
@@ -14,11 +14,11 @@ class TimePanel extends JPanel {
 		super.paint(g);
 		g.setColor(Color.red);
 		g.fillRect(0, 0, cnt, 200);
-
+		g.setColor(Color.BLACK);
+		g.drawString(String.valueOf((W_WIDTH - cnt) / 10), 500, 15);
 	}
 
 	public boolean isEnd() {
-		System.out.println(cnt);
 		if (cnt++ > W_WIDTH)
 			return true;
 		repaint();

@@ -25,21 +25,51 @@ public class NorthPanel extends JPanel {
 			@Override
 			public void run() {
 				if (time.isEnd()) {
-					System.out.println("!!!!!!!");
-
-					// System.exit(0);
+					mainFrame.contentPanel.removeAll();
+					mainFrame.contentPanel.add(mainFrame.gameOverPanel);
+					mainFrame.gameOverPanel.setSize(
+							mainFrame.contentPanel.getWidth(),
+							mainFrame.contentPanel.getHeight());
+					this.cancel();
+					pause.setEnabled(false);
 				}
 			}
 		};
 
 		Date date = new Date();
-		long delay = 10;
+		long delay = 100;
 		timer.schedule(task, date, delay);
 
 		pause.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				pause.setText(flag == false ? "¼ÌÐø" : "ÔÝÍ£");
+				if (flag == false) {
+					pause.setText("¼ÌÐø");
+					timer.cancel();
+					mainFrame.contentPanel.setVisible(false);
+
+				} else {
+					pause.setText("ÔÝÍ£");
+					mainFrame.contentPanel.setVisible(true);
+					timer = new Timer();
+					TimerTask task = new TimerTask() {
+
+						@Override
+						public void run() {
+							if (time.isEnd()) {
+								mainFrame.contentPanel.removeAll();
+								mainFrame.contentPanel
+										.add(mainFrame.gameOverPanel);
+								mainFrame.gameOverPanel.setSize(
+										mainFrame.contentPanel.getWidth(),
+										mainFrame.contentPanel.getHeight());
+								this.cancel();
+								pause.setEnabled(false);
+							}
+						}
+					};
+					timer.schedule(task, date, delay);
+				}
 				flag = !flag;
 
 			}

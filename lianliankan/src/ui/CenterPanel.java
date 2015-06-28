@@ -21,14 +21,13 @@ public class CenterPanel extends JPanel {
 	public final static int ROW = PADDING + 8;
 	public static int COLUMN = PADDING + 11;
 	private static final String imgDir = "./Graphics/picture/";
-	public static int pCount = 0;
-	public int[][] map = new int[ROW][COLUMN];
-	JButton[][] dots = new JButton[ROW][COLUMN];
+	private static int pCount = 0;
+	private static int[][] map = new int[ROW][COLUMN];
+	private JButton[][] dots = new JButton[ROW][COLUMN];
 	GetImage getImg = new GetImage();
-	protected Point[] p = new Point[2];
+	private static Point[] p = new Point[2];
 
 	public CenterPanel() {
-
 		this.setLayout(new GridLayout(ROW - PADDING, COLUMN - PADDING));
 		Random rnd = new Random();
 
@@ -40,17 +39,24 @@ public class CenterPanel extends JPanel {
 				map[i][j] = -1; // 初始化map， 1 表示有图形存在，-1 表示为空 已消除
 			}
 
+		JButton[] tempBtn = new JButton[(ROW - 2) * (COLUMN - 2)];
+		for (int i = 0; i < tempBtn.length; i = i + 2) {
+			int picName = rnd.nextInt(36);
+			tempBtn[i] = new JButton(getImg.getImage(imgDir + picName + ".jpg"));
+			tempBtn[i + 1] = new JButton(getImg.getImage(imgDir + picName
+					+ ".jpg"));
+			tempBtn[i].setToolTipText(String.valueOf(picName));
+			tempBtn[i + 1].setToolTipText(String.valueOf(picName));
+		}
+
 		// set buttons with pictures
+		int count = 0;
 		for (int i = 1; i < ROW - 1; i++) {
-			int picName = rnd.nextInt(35);
 			for (int j = 1; j < COLUMN - 1; j++) {
-
-				dots[i][j] = new JButton(getImg.getImage(imgDir + picName
-						+ ".jpg"));
-				dots[i][j].setToolTipText(String.valueOf(picName));
+				dots[i][j] = tempBtn[count];
 				map[i][j] = 1; // 填充map
+				count++;
 			}
-
 		}
 
 		// 打乱顺序
@@ -91,7 +97,7 @@ public class CenterPanel extends JPanel {
 				String[] value = offset.split(",");
 				int row = Integer.parseInt(value[0]);
 				int col = Integer.parseInt(value[1]);
-				System.out.println("row=" + row + "  col=" + col);
+				// System.out.println("row=" + row + "  col=" + col);
 				p[pCount] = new Point(row, col);
 				if (pCount == 1) {
 					pCount = 0;
@@ -111,4 +117,5 @@ public class CenterPanel extends JPanel {
 			}
 		}
 	}
+
 }

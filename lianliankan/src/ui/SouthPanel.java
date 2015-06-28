@@ -26,9 +26,7 @@ public class SouthPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				try {
-
 					new mainFrame().setVisible(true);
-
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
