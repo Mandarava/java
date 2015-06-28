@@ -21,6 +21,8 @@ public class StartFrame extends JFrame {
 	private static final String imgDir = "./Graphics/string/";
 	private static Image Image_BG = new ImageIcon(
 			"Graphics/background/bg01.jpg").getImage();
+	public static int rowEasyHard = 8;
+	public static int colEasyHard = 11;
 
 	GetImage getImg = new GetImage();
 
@@ -34,20 +36,56 @@ public class StartFrame extends JFrame {
 		this.setResizable(false);
 		JButton btnNewButton = new JButton(getImg.getImage(imgDir + "start"
 				+ ".jpg"));
+		JButton hardButton = new JButton(getImg.getImage(imgDir + "hard"
+				+ ".jpg"));
+		JButton easyButton = new JButton(getImg.getImage(imgDir + "easy"
+				+ ".jpg"));
+
 		btnNewButton.setMargin(new Insets(0, 0, 0, 0));
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setBorderPainted(false);
 		btnNewButton.setBorder(null);
+
+		hardButton.setMargin(new Insets(0, 0, 0, 0));
+		hardButton.setFocusPainted(false);
+		hardButton.setBorderPainted(false);
+		hardButton.setBorder(null);
+
+		easyButton.setMargin(new Insets(0, 0, 0, 0));
+		easyButton.setFocusPainted(false);
+		easyButton.setBorderPainted(false);
+		easyButton.setBorder(null);
+
 		ImagePanel panel = new ImagePanel();
 		panel.add(btnNewButton);
+		panel.add(hardButton);
+		panel.add(easyButton);
 		add(panel);
 		setVisible(true);
-		btnNewButton.addActionListener(new ActionListener() {
+		hardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				try {
 					StartFrame.this.dispose();
+					rowEasyHard = 10;
+					colEasyHard = 17;
+					new mainFrame().setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		easyButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				try {
+					StartFrame.this.dispose();
+					rowEasyHard = 8;
+					colEasyHard = 11;
 					new mainFrame().setVisible(true);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

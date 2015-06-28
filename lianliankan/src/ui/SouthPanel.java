@@ -35,6 +35,7 @@ public class SouthPanel extends JPanel {
 		});
 		this.add(exitButton);
 		this.add(newlyButton);
+
 		exitButton.setBackground(new Color(250, 250, 250));
 		newlyButton.setBackground(new Color(250, 250, 250));
 		this.setBackground(new Color(216, 191, 216));

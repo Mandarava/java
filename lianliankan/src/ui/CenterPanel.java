@@ -18,8 +18,8 @@ public class CenterPanel extends JPanel {
 
 	JPanel centerPanel = new JPanel();
 	public final static int PADDING = 2; // 四周一圈空的button
-	public final static int ROW = PADDING + 8;
-	public static int COLUMN = PADDING + 11;
+	public final static int ROW = PADDING + StartFrame.rowEasyHard;
+	public static int COLUMN = PADDING + StartFrame.colEasyHard;
 	private static final String imgDir = "./Graphics/picture/";
 	private static int pCount = 0;
 	private static int[][] map = new int[ROW][COLUMN];

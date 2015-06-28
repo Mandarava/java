@@ -82,5 +82,4 @@ public class NorthPanel extends JPanel {
 		pause.setBackground(Color.green);
 
 	}
-
 }
