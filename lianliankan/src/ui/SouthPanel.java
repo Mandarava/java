@@ -1,11 +1,11 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -50,13 +50,20 @@ public class SouthPanel extends JPanel {
 				p = tip.getTips();
 				if (p != null) {
 					CenterPanel.dots[p[0].x][p[0].y].setBorderPainted(true);// œ‘ æ±ﬂøÚ
-					Border etchedBorder = new EtchedBorder(EtchedBorder.LOWERED);// …Ë÷√±ﬂøÚ∞ºœ‘
-					CenterPanel.dots[p[0].x][p[0].y].setBorder(etchedBorder);
+					Border lineBorder = BorderFactory
+							.createLineBorder(Color.GREEN);
+					Border etchedBorder = BorderFactory
+							.createEtchedBorder(EtchedBorder.LOWERED);// …Ë÷√±ﬂøÚ∞ºœ‘
+
+					CenterPanel.dots[p[0].x][p[0].y].setBorder(BorderFactory
+							.createCompoundBorder(lineBorder, etchedBorder));
 					CenterPanel.dots[p[0].x][p[0].y].setRolloverEnabled(true);
 
 					CenterPanel.dots[p[1].x][p[1].y].setBorderPainted(true);// œ‘ æ±ﬂøÚ
-					CenterPanel.dots[p[1].x][p[1].y].setBorder(etchedBorder);
-					CenterPanel.dots[p[1].x][p[1].y].setRolloverEnabled(true);
+					CenterPanel.dots[p[1].x][p[1].y].setBorder(BorderFactory
+							.createCompoundBorder(lineBorder, etchedBorder));
+					CenterPanel.dots[p[1].x][p[1].y].setBorder(BorderFactory
+							.createCompoundBorder(lineBorder, etchedBorder));
 				}
 
 			}
