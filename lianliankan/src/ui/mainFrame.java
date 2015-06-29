@@ -12,6 +12,7 @@ public class mainFrame extends JFrame {
 	SouthPanel southPanel = new SouthPanel();
 	NorthPanel northPanel = new NorthPanel();
 	public static GameOverPanel gameOverPanel = new GameOverPanel();
+	public static WinPanel winPanel = new WinPanel();
 
 	public mainFrame() throws InterruptedException {
 		contentPanel = new CenterPanel();
@@ -26,6 +27,9 @@ public class mainFrame extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.add(gameOverPanel, BorderLayout.CENTER);
 		gameOverPanel.setSize(0, 0);
+		this.add(winPanel, BorderLayout.CENTER);
+		winPanel.setSize(0, 0);
+		
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(southPanel, BorderLayout.SOUTH);
 		this.add(contentPanel, BorderLayout.CENTER);

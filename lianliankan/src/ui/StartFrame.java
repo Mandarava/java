@@ -62,6 +62,22 @@ public class StartFrame extends JFrame {
 		panel.add(easyButton);
 		add(panel);
 		setVisible(true);
+		btnNewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				try {
+					StartFrame.this.dispose();
+					rowEasyHard = 2;
+					colEasyHard = 2;
+					new mainFrame().setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
 		hardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

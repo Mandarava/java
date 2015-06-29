@@ -15,7 +15,7 @@ public class TimePanel extends JPanel {
 		g.setColor(Color.red);
 		g.fillRect(0, 0, cnt, 200);
 		g.setColor(Color.BLACK);
-		g.drawString(String.valueOf((W_WIDTH - cnt) / 10), 500, 15);
+		g.drawString(String.valueOf((W_WIDTH - cnt) / 2), 500, 15);
 	}
 
 	public boolean isEnd() {

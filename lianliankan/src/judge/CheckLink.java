@@ -19,8 +19,6 @@ public class CheckLink {
 		OneCorner oneCorner = new OneCorner(a, b, map);
 		Scan scan = new TwoCorner(a, b, map);
 
-		if (map[a.x][a.y] != map[b.x][b.y])// 如果图案不同，直接为false
-			return false;
 		if (a.x == b.x && horizon.horizon(a, b))
 			return true;
 		if (a.y == b.y && vertical.vertical(a, b))

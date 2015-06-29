@@ -24,6 +24,17 @@ public class NorthPanel extends JPanel {
 
 			@Override
 			public void run() {
+				if (CenterPanel.btnLeft == 0) {
+					// TODO SOMETHING
+					mainFrame.contentPanel.removeAll();
+					mainFrame.contentPanel.add(mainFrame.winPanel);
+					mainFrame.winPanel.setSize(
+							mainFrame.contentPanel.getWidth(),
+							mainFrame.contentPanel.getHeight());
+					this.cancel();
+					pause.setEnabled(false);
+				}
+
 				if (time.isEnd()) {
 					mainFrame.contentPanel.removeAll();
 					mainFrame.contentPanel.add(mainFrame.gameOverPanel);
@@ -37,7 +48,7 @@ public class NorthPanel extends JPanel {
 		};
 
 		Date date = new Date();
-		long delay = 100;
+		long delay = 500;
 		timer.schedule(task, date, delay);
 
 		pause.addActionListener(new ActionListener() {
@@ -56,6 +67,15 @@ public class NorthPanel extends JPanel {
 
 						@Override
 						public void run() {
+							if (CenterPanel.btnLeft == 0) {
+								mainFrame.contentPanel.removeAll();
+								mainFrame.contentPanel.add(mainFrame.winPanel);
+								mainFrame.winPanel.setSize(
+										mainFrame.contentPanel.getWidth(),
+										mainFrame.contentPanel.getHeight());
+								this.cancel();
+								pause.setEnabled(false);
+							}
 							if (time.isEnd()) {
 								mainFrame.contentPanel.removeAll();
 								mainFrame.contentPanel
