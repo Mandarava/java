@@ -13,14 +13,20 @@ import javax.swing.border.EmptyBorder;
 
 public class calculator extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private String firstNum = "";
 	private String secondNum = "";
-	private String result = ""; // ÔËËã½á¹û
-	private String operator = ""; // ²Ù×÷·û
-	private int operatorCount = 0;// ÓÃÓë¼ì²âÊÇ·ñÖØ¸´ÊäÈë²Ù×÷·û
-	private int btnCount = 0; // ÓÃÓÚÅĞ¶ÏµÚÒ»¸öÊÇ·ñÎª¡°-¡±
+	private String result = ""; // è¿ç®—ç»“æœ
+	private char operator = '+'; // æ“ä½œç¬¦
+	private int operatorCount = 0;// ç”¨ä¸æ£€æµ‹æ˜¯å¦é‡å¤è¾“å…¥æ“ä½œç¬¦
+	public int btnCount = 0; // ç”¨äºåˆ¤æ–­ç¬¬ä¸€ä¸ªæ˜¯å¦ä¸ºâ€œ-â€
+	public int pointCount = 0;
+	public int equalCount = 0;
 
 	/**
 	 * Launch the application.
@@ -30,7 +36,7 @@ public class calculator extends JFrame {
 			@Override
 			public void run() {
 				try {
-					calculator frame = new ex5();
+					calculator frame = new calculator();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +48,7 @@ public class calculator extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ex5() {
+	public calculator() {
 		setTitle("\u8BA1\u7B97\u5668");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +59,7 @@ public class calculator extends JFrame {
 		contentPane.setLayout(null);
 
 		textField = new JTextField(result);
-		textField.setFont(new Font("ËÎÌå", Font.PLAIN, 37));
+		textField.setFont(new Font("å®‹ä½“", Font.PLAIN, 25));
 		textField.setBounds(14, 13, 459, 70);
 		contentPane.add(textField);
 		textField.setColumns(10);
@@ -176,69 +182,138 @@ public class calculator extends JFrame {
 		contentPane.add(button_2);
 	}
 
+	public void clearText() {
+		textField.setText("");
+		pointCount = 0;
+		firstNum = "";
+		secondNum = "";
+		operatorCount = 0;
+		btnCount = 0;
+		equalCount = 0;
+		result = "";
+	}
+
 	class btnListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			// ÊäÈëÊı×ÖÊ±µÄ´¦Àí
-			if (e.getActionCommand() != "+" && e.getActionCommand() != "-"
-					&& e.getActionCommand() != "*"
-					&& e.getActionCommand() != "/"
-					&& e.getActionCommand() != "=") {
-				secondNum += e.getActionCommand();
-				textField.setText(secondNum);
+			if (result != ""
+					&& operatorCount == 0
+					&& (e.getActionCommand() == "0"
+							|| e.getActionCommand() == "1"
+							|| e.getActionCommand() == "2"
+							|| e.getActionCommand() == "3"
+							|| e.getActionCommand() == "4"
+							|| e.getActionCommand() == "5"
+							|| e.getActionCommand() == "6"
+							|| e.getActionCommand() == "7"
+							|| e.getActionCommand() == "8"
+							|| e.getActionCommand() == "9" || e
+							.getActionCommand() == ".")) {
+				clearText();
 			}
 
-			// °´ÏÂ²Ù×÷·ûÊ±µÄ´¦Àí
-			if ((e.getActionCommand() == "+" || e.getActionCommand() == "-"
-					|| e.getActionCommand() == "*" || e.getActionCommand() == "/")
-					&& operatorCount == 0) {
-				// Èç¹ûµÚÒ»¸öÎª¸ººÅ
-				if (btnCount == 0 && e.getActionCommand() == "-") {
+			if (e.getActionCommand() == "0" || e.getActionCommand() == "1"
+					|| e.getActionCommand() == "2"
+					|| e.getActionCommand() == "3"
+					|| e.getActionCommand() == "4"
+					|| e.getActionCommand() == "5"
+					|| e.getActionCommand() == "6"
+					|| e.getActionCommand() == "7"
+					|| e.getActionCommand() == "8"
+					|| e.getActionCommand() == "9") {
+				secondNum += e.getActionCommand();
+				textField.setText(secondNum);
+				btnCount++;
+			} else if (e.getActionCommand() == ".") {
+				if (pointCount == 0) {
 					secondNum += e.getActionCommand();
 					textField.setText(secondNum);
-					btnCount++;
-				} else {
-					operatorCount++;
-					firstNum = secondNum;
-					secondNum = "";
-					operator = e.getActionCommand();
-					textField.setText(firstNum + e.getActionCommand());
 				}
-			}
-			// °´ÏÂ=ºÅÊ±µÄ´¦Àí
-			if (e.getActionCommand() == "=") {
+				pointCount++;
+			} else if (btnCount == 0 && e.getActionCommand() == "-"
+					&& result == "") {
+				secondNum += e.getActionCommand();
+				textField.setText(secondNum);
+				btnCount++;
+			} else if ((e.getActionCommand() == "+"
+					|| e.getActionCommand() == "-"
+					|| e.getActionCommand() == "*" || e.getActionCommand() == "/")
+					&& operatorCount == 0) {
+				btnCount = 0;
+				pointCount = 0;
+				operatorCount++;
+				firstNum = secondNum;
+				secondNum = "";
+				operator = e.getActionCommand().charAt(0);
+				textField.setText(firstNum + operator);
+			} else if (e.getActionCommand() == "=") { // æŒ‰ä¸‹=å·æ—¶çš„å¤„ç†
+				if (firstNum == "" && secondNum == "") {
+					firstNum = "0";
+					secondNum = "0";
+				}
+
+				if (firstNum == "") {
+					firstNum = "0";
+				}
+				if (secondNum == "") {
+					secondNum = "0";
+				}
+
+				try {
+					// System.out.println(firstNum + "," + secondNum);
+					new BigDecimal(firstNum);
+					new BigDecimal(secondNum);
+				} catch (Exception ex) {
+					textField.setText("ERROR");
+				}
 				switch (operator) {
-				case "+":
-					textField.setText(new BigDecimal(firstNum)
-							.add(new BigDecimal(secondNum)) + "");
+				case '+':
+					result = new BigDecimal(firstNum).add(new BigDecimal(
+							secondNum)) + "";
+					textField.setText(result);
 					break;
-				case "-":
-					textField.setText(new BigDecimal(firstNum)
-							.subtract(new BigDecimal(secondNum)) + "");
+				case '-':
+					result = new BigDecimal(firstNum).subtract(new BigDecimal(
+							secondNum)) + "";
+					textField.setText(result);
 					break;
-				case "*":
-					textField.setText(new BigDecimal(firstNum)
-							.multiply(new BigDecimal(secondNum)) + "");
+				case '*':
+					result = new BigDecimal(firstNum).multiply(new BigDecimal(
+							secondNum)) + "";
+					textField.setText(result);
 					break;
-				case "/":
-					textField.setText(new BigDecimal(firstNum)
-							.divide(new BigDecimal(secondNum)) + "");
+				case '/':
+					StringBuffer result2 = new StringBuffer();
+					try {
+						result = new BigDecimal(firstNum).divide(
+								new BigDecimal(secondNum), 15,
+								BigDecimal.ROUND_HALF_EVEN).doubleValue()
+								+ "";
+						if (result.matches("*.0+")) {
+							for (int i = 0; i < result.length(); i++) {
+								if (result.charAt(i) == '.') {
+									break;
+								} else {
+									result2.append(result.charAt(i));
+								}
+							}
+						}
+						textField.setText(result2+"");
+					} catch (Exception ex) {
+						textField.setText("ERROR");
+					}
 					break;
 				}
 				firstNum = "";
-				secondNum = "";
+				secondNum = result;
+				// result = "";
 				operatorCount = 0;
 				btnCount = 0;
-			}
-			// °´ÏÂ¹éÁãÊ±µÄ´¦Àí£¬ËùÓĞ¼ÆÊı¹éÁã
-			if (e.getActionCommand() == "clr") {
-				textField.setText("");
-				firstNum = "";
-				secondNum = "";
-				operatorCount = 0;
-				btnCount = 0;
+
+			} else if (e.getActionCommand() == "clr") { // æŒ‰ä¸‹å½’é›¶æ—¶çš„å¤„ç†ï¼Œæ‰€æœ‰è®¡æ•°å½’é›¶
+				clearText();
 			}
 		}
 	}
