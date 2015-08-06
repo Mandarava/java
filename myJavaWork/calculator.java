@@ -21,10 +21,10 @@ public class calculator extends JFrame {
 	private JTextField textField;
 	private String firstNum = "";
 	private String secondNum = "";
-	private String result = ""; // 运算结果
-	private char operator = '+'; // 操作符
-	private int operatorCount = 0;// 用与检测是否重复输入操作符
-	public int btnCount = 0; // 用于判断第一个是否为“-”
+	private String result = ""; // 杩愮畻缁撴灉
+	private char operator; // 鎿嶄綔绗�
+	private int operatorCount = 0;// 鐢ㄤ笌妫�娴嬫槸鍚﹂噸澶嶈緭鍏ユ搷浣滅
+	public int btnCount = 0; // 鐢ㄤ簬鍒ゆ柇绗竴涓槸鍚︿负鈥�-鈥�
 	public int pointCount = 0;
 	public int equalCount = 0;
 
@@ -49,7 +49,7 @@ public class calculator extends JFrame {
 	 * Create the frame.
 	 */
 	public calculator() {
-		setTitle("\u8BA1\u7B97\u5668");
+		setTitle("反人类计算器");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 496, 396);
@@ -248,21 +248,19 @@ public class calculator extends JFrame {
 				secondNum = "";
 				operator = e.getActionCommand().charAt(0);
 				textField.setText(firstNum + operator);
-			} else if (e.getActionCommand() == "=") { // 按下=号时的处理
+			} else if (e.getActionCommand() == "=") {
 				if (firstNum == "" && secondNum == "") {
 					firstNum = "0";
 					secondNum = "0";
 				}
 
-				if (firstNum == "") {
+				if (firstNum == "" && result == "") {
 					firstNum = "0";
 				}
-				if (secondNum == "") {
+				if (secondNum == "" && result == "") {
 					secondNum = "0";
 				}
-
 				try {
-					// System.out.println(firstNum + "," + secondNum);
 					new BigDecimal(firstNum);
 					new BigDecimal(secondNum);
 				} catch (Exception ex) {
@@ -270,49 +268,52 @@ public class calculator extends JFrame {
 				}
 				switch (operator) {
 				case '+':
-					result = new BigDecimal(firstNum).add(new BigDecimal(
-							secondNum)) + "";
+					result = new BigDecimal(firstNum).add(
+							new BigDecimal(secondNum)).toPlainString();
 					textField.setText(result);
 					break;
 				case '-':
-					result = new BigDecimal(firstNum).subtract(new BigDecimal(
-							secondNum)) + "";
+					result = new BigDecimal(firstNum).subtract(
+							new BigDecimal(secondNum)).toPlainString();
 					textField.setText(result);
 					break;
 				case '*':
-					result = new BigDecimal(firstNum).multiply(new BigDecimal(
-							secondNum)) + "";
+					result = new BigDecimal(firstNum).multiply(
+							new BigDecimal(secondNum)).toPlainString();
 					textField.setText(result);
 					break;
 				case '/':
-					StringBuffer result2 = new StringBuffer();
+					// StringBuffer result2 = new StringBuffer();
 					try {
-						result = new BigDecimal(firstNum).divide(
-								new BigDecimal(secondNum), 15,
-								BigDecimal.ROUND_HALF_EVEN).doubleValue()
+						result = new BigDecimal(firstNum)
+								.divide(new BigDecimal(secondNum), 15,
+										BigDecimal.ROUND_HALF_EVEN)
+								.stripTrailingZeros().toPlainString()
 								+ "";
-						if (result.matches("*.0+")) {
-							for (int i = 0; i < result.length(); i++) {
-								if (result.charAt(i) == '.') {
-									break;
-								} else {
-									result2.append(result.charAt(i));
-								}
-							}
-						}
-						textField.setText(result2+"");
+						// if (result.matches(".*\\.0+")) {
+						// for (int i = 0; i < result.length(); i++) {
+						// if (result.charAt(i) == '.') {
+						// break;
+						// } else {
+						// result2.append(result.charAt(i));
+						// }
+						// }
+						// textField.setText(result2 + "");
+						// } else {
+						textField.setText(result + "");
+						// }
+
 					} catch (Exception ex) {
 						textField.setText("ERROR");
 					}
 					break;
+
 				}
-				firstNum = "";
+				firstNum = secondNum;
 				secondNum = result;
-				// result = "";
 				operatorCount = 0;
 				btnCount = 0;
-
-			} else if (e.getActionCommand() == "clr") { // 按下归零时的处理，所有计数归零
+			} else if (e.getActionCommand() == "clr") {
 				clearText();
 			}
 		}
