@@ -21,12 +21,12 @@ public class calculator extends JFrame {
 	private JTextField textField;
 	private String firstNum = "";
 	private String secondNum = "";
-	private String result = ""; // 杩愮畻缁撴灉
-	private char operator; // 鎿嶄綔绗�
-	private int operatorCount = 0;// 鐢ㄤ笌妫�娴嬫槸鍚﹂噸澶嶈緭鍏ユ搷浣滅
-	public int btnCount = 0; // 鐢ㄤ簬鍒ゆ柇绗竴涓槸鍚︿负鈥�-鈥�
+	private String result = ""; // 运算结果
+	private char operator = '+'; // 操作符
+	private int operatorCount = 0;// 用与检测是否重复输入操作符
 	public int pointCount = 0;
 	public int equalCount = 0;
+	public int negativeSign = 0;
 
 	/**
 	 * Launch the application.
@@ -49,7 +49,7 @@ public class calculator extends JFrame {
 	 * Create the frame.
 	 */
 	public calculator() {
-		setTitle("反人类计算器");
+		setTitle("计算器");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 496, 396);
@@ -66,6 +66,8 @@ public class calculator extends JFrame {
 		textField.setHorizontalAlignment(SwingConstants.SOUTH_EAST);
 
 		ActionListener btnListener = new btnListener();
+		ActionListener clrListener = new clrListener();
+		ActionListener negativeListener = new negativeListener();
 
 		JButton btnZero = new JButton("0");
 		btnZero.addActionListener(btnListener);
@@ -166,12 +168,14 @@ public class calculator extends JFrame {
 		JButton btnClr = new JButton("clr");
 		btnClr.setActionCommand("clr");
 		btnClr.setBounds(368, 96, 105, 40);
-		btnClr.addActionListener(btnListener);
+		btnClr.addActionListener(clrListener);
 		contentPane.add(btnClr);
 
-		JButton button = new JButton(" ");
-		button.setBounds(249, 96, 105, 40);
-		contentPane.add(button);
+		JButton btnNegative = new JButton("+/-");
+		btnNegative.setBounds(249, 96, 105, 40);
+		btnNegative.setActionCommand("-");
+		btnNegative.addActionListener(negativeListener);
+		contentPane.add(btnNegative);
 
 		JButton button_1 = new JButton(" ");
 		button_1.setBounds(130, 96, 105, 40);
@@ -188,134 +192,180 @@ public class calculator extends JFrame {
 		firstNum = "";
 		secondNum = "";
 		operatorCount = 0;
-		btnCount = 0;
+		negativeSign = 0;
 		equalCount = 0;
 		result = "";
+	}
+
+	class clrListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			clearText();
+		}
+
+	}
+
+	class negativeListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (negativeSign == 0 && operatorCount != 0) {
+				firstNum += e.getActionCommand();
+				textField.setText(firstNum);
+				negativeSign++;
+			}
+			if (negativeSign == 0 && result == "") {
+				firstNum += e.getActionCommand();
+				textField.setText(firstNum);
+				negativeSign++;
+			}
+		}
 	}
 
 	class btnListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			if (result != ""
-					&& operatorCount == 0
-					&& (e.getActionCommand() == "0"
-							|| e.getActionCommand() == "1"
-							|| e.getActionCommand() == "2"
-							|| e.getActionCommand() == "3"
-							|| e.getActionCommand() == "4"
-							|| e.getActionCommand() == "5"
-							|| e.getActionCommand() == "6"
-							|| e.getActionCommand() == "7"
-							|| e.getActionCommand() == "8"
-							|| e.getActionCommand() == "9" || e
-							.getActionCommand() == ".")) {
-				clearText();
-			}
-
-			if (e.getActionCommand() == "0" || e.getActionCommand() == "1"
-					|| e.getActionCommand() == "2"
-					|| e.getActionCommand() == "3"
-					|| e.getActionCommand() == "4"
-					|| e.getActionCommand() == "5"
-					|| e.getActionCommand() == "6"
-					|| e.getActionCommand() == "7"
-					|| e.getActionCommand() == "8"
-					|| e.getActionCommand() == "9") {
-				secondNum += e.getActionCommand();
-				textField.setText(secondNum);
-				btnCount++;
-			} else if (e.getActionCommand() == ".") {
-				if (pointCount == 0) {
-					secondNum += e.getActionCommand();
-					textField.setText(secondNum);
+			try {
+				if (e.getActionCommand() != "=") {
+					equalCount = 0;
 				}
-				pointCount++;
-			} else if (btnCount == 0 && e.getActionCommand() == "-"
-					&& result == "") {
-				secondNum += e.getActionCommand();
-				textField.setText(secondNum);
-				btnCount++;
-			} else if ((e.getActionCommand() == "+"
-					|| e.getActionCommand() == "-"
-					|| e.getActionCommand() == "*" || e.getActionCommand() == "/")
-					&& operatorCount == 0) {
-				btnCount = 0;
-				pointCount = 0;
-				operatorCount++;
-				firstNum = secondNum;
-				secondNum = "";
-				operator = e.getActionCommand().charAt(0);
-				textField.setText(firstNum + operator);
-			} else if (e.getActionCommand() == "=") {
-				if (firstNum == "" && secondNum == "") {
-					firstNum = "0";
-					secondNum = "0";
+				if (equalCount != 0) {
+					return;
 				}
 
-				if (firstNum == "" && result == "") {
-					firstNum = "0";
+				if (result != ""
+						&& operatorCount == 0
+						&& (e.getActionCommand() == "0"
+								|| e.getActionCommand() == "1"
+								|| e.getActionCommand() == "2"
+								|| e.getActionCommand() == "3"
+								|| e.getActionCommand() == "4"
+								|| e.getActionCommand() == "5"
+								|| e.getActionCommand() == "6"
+								|| e.getActionCommand() == "7"
+								|| e.getActionCommand() == "8"
+								|| e.getActionCommand() == "9" || e
+								.getActionCommand() == ".")) {
+					clearText();
 				}
-				if (secondNum == "" && result == "") {
-					secondNum = "0";
-				}
-				try {
-					new BigDecimal(firstNum);
-					new BigDecimal(secondNum);
-				} catch (Exception ex) {
-					textField.setText("ERROR");
-				}
-				switch (operator) {
-				case '+':
-					result = new BigDecimal(firstNum).add(
-							new BigDecimal(secondNum)).toPlainString();
-					textField.setText(result);
-					break;
-				case '-':
-					result = new BigDecimal(firstNum).subtract(
-							new BigDecimal(secondNum)).toPlainString();
-					textField.setText(result);
-					break;
-				case '*':
-					result = new BigDecimal(firstNum).multiply(
-							new BigDecimal(secondNum)).toPlainString();
-					textField.setText(result);
-					break;
-				case '/':
-					// StringBuffer result2 = new StringBuffer();
+
+				if (e.getActionCommand() == "0" || e.getActionCommand() == "1"
+						|| e.getActionCommand() == "2"
+						|| e.getActionCommand() == "3"
+						|| e.getActionCommand() == "4"
+						|| e.getActionCommand() == "5"
+						|| e.getActionCommand() == "6"
+						|| e.getActionCommand() == "7"
+						|| e.getActionCommand() == "8"
+						|| e.getActionCommand() == "9") {
+					firstNum += e.getActionCommand();
+					textField.setText(firstNum);
+				} else if (e.getActionCommand() == ".") {
+					if (pointCount == 0) {
+						firstNum += e.getActionCommand();
+						textField.setText(firstNum);
+					}
+					pointCount++;
+				} else if ((e.getActionCommand() == "+"
+						|| e.getActionCommand() == "-"
+						|| e.getActionCommand() == "*" || e.getActionCommand() == "/")
+						&& operatorCount == 0) {
+					negativeSign = 0;
+					pointCount = 0;
+					operatorCount++;
+					secondNum = firstNum;
+					firstNum = "";// 此处有修改to be finished
+					operator = e.getActionCommand().charAt(0);
+					textField.setText(secondNum + operator);
+				} else if (e.getActionCommand() == "=") {
+					if (firstNum == "" && secondNum == "") {
+						firstNum = "0";
+						secondNum = "0";
+					}
+
+					if (firstNum == "" && result == "") {
+						firstNum = "0";
+					}
+					if (secondNum == "" && result == "") {
+						secondNum = "0";
+					}
 					try {
-						result = new BigDecimal(firstNum)
-								.divide(new BigDecimal(secondNum), 15,
-										BigDecimal.ROUND_HALF_EVEN)
-								.stripTrailingZeros().toPlainString()
-								+ "";
-						// if (result.matches(".*\\.0+")) {
-						// for (int i = 0; i < result.length(); i++) {
-						// if (result.charAt(i) == '.') {
-						// break;
-						// } else {
-						// result2.append(result.charAt(i));
-						// }
-						// }
-						// textField.setText(result2 + "");
-						// } else {
-						textField.setText(result + "");
-						// }
+						//System.out.println(firstNum + "," + secondNum);
+						new BigDecimal(firstNum);
+						new BigDecimal(secondNum);
 
+						switch (operator) {
+						case '+':
+							result = new BigDecimal(secondNum)
+									.stripTrailingZeros()
+									.add(new BigDecimal(firstNum)
+											.stripTrailingZeros())
+									.stripTrailingZeros().toPlainString();
+							textField.setText(result);
+							break;
+						case '-':
+							result = new BigDecimal(secondNum)
+									.stripTrailingZeros()
+									.subtract(
+											new BigDecimal(firstNum)
+													.stripTrailingZeros())
+									.stripTrailingZeros().toPlainString();
+							textField.setText(result);
+							break;
+						case '*':
+							result = new BigDecimal(secondNum)
+									.stripTrailingZeros()
+									.multiply(
+											new BigDecimal(firstNum)
+													.stripTrailingZeros())
+									.stripTrailingZeros().toPlainString();
+							textField.setText(result);
+							break;
+						case '/':
+							StringBuffer result2 = new StringBuffer();
+							try {
+								result = new BigDecimal(secondNum)
+										.stripTrailingZeros()
+										.divide(new BigDecimal(firstNum)
+												.stripTrailingZeros(),
+												20, BigDecimal.ROUND_HALF_EVEN)
+										.stripTrailingZeros().toPlainString()
+										+ "";
+								if (result.matches(".*\\.0+")) {
+									for (int i = 0; i < result.length(); i++) {
+										if (result.charAt(i) == '.') {
+											break;
+										} else {
+											result2.append(result.charAt(i));
+										}
+									}
+									textField.setText(result2 + "");
+								} else {
+									textField.setText(result + "");
+								}
+
+							} catch (Exception ex) {
+								textField.setText("ERROR");
+							}
+							break;
+
+						}
+						// secondNum = result;
+						firstNum = result;
+						operatorCount = 0;
+						// btnCount = 0;
+						negativeSign = 0;
+						equalCount++;
 					} catch (Exception ex) {
 						textField.setText("ERROR");
 					}
-					break;
-
 				}
-				firstNum = secondNum;
-				secondNum = result;
-				operatorCount = 0;
-				btnCount = 0;
-			} else if (e.getActionCommand() == "clr") {
-				clearText();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
 		}
 	}
+
 }
