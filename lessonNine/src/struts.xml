@@ -5,12 +5,13 @@
 
 <struts>
 	<package name="default" namespace="/" extends="struts-default">
-		<action name="Select" class="action.DoSearch" method="doSelect">
-			<result name="success">jsp/Search.jsp</result>
+		<action name="Select" class="action.MemberInfoSelAction"
+			method="doSelect">
+			<result name="success">jsp/MemberInfoSel.jsp</result>
 		</action>
 
-		<action name="Clear" class="action.DoSearch" method="doViewClear">
-			<result name="success">jsp/Search.jsp</result>
+		<action name="Clear" class="action.MemberInfoSelAction" method="doViewClear">
+			<result name="success">jsp/MemberInfoSel.jsp</result>
 		</action>
 	</package>
 </struts>
