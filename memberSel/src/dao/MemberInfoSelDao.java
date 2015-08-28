@@ -5,16 +5,6 @@
  * 名称　　:查找员工信息的DAO
  * 説明　　：从SERVICE取得dataBean及connection，拼接并执行SQL语句，
  * 		取得结果后对结果进行各种处理，然后将结果返回给SERVICE。
- * 備考　　：
- * 作成　　：[日付] 2015/08/17 [氏名] S1507112
- * 履歴：
- * [NO]	[日付]		[Ver]		[更新者]		[内容]
- *	1	2015/08/17	V10L1		S1507112	 初版。　 
- *	2	2015/08/19	V10L1.01	S1507112	更改注释
- *	3	2015/08/20	V10L1.02	S1507112	增加数据库查询操作
- *	4	2015/08/25	V10L1.03	S1507112	字符串转义
- *	5	2015/08/26	V10L1.04	S1507112	修改数据库查询缺数据问题
- *	6	2015/08/27	V10L1.05	S1507112	调整代码结构
  */
 package dao;
 
@@ -46,8 +36,7 @@ import databean.MemberInfoSelSelectKeyDatabean;
  * @see common.EscapeInput
  * @see databean.MemberInfoSelDetailDatabean
  * @see databean.MemberInfoSelSelectKeyDatabean
- * @author S1507112
- * @version 1.05
+ * @version 1.0
  */
 public class MemberInfoSelDao {
 	/** 创建PreparedStatement */

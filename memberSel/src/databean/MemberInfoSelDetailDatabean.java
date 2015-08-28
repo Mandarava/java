@@ -3,19 +3,13 @@
  * 
  * 分類　　:memberSel-dataBean dataBean
  * 名称　　:员工数据的dataBean
- * 説明　　：员工详细信息的dataBean
- * 備考　　：
- * 作成　　：[日付] 2015/08/17 [氏名] S1507112
- * 履歴：
- * [NO]	[日付]		[Ver]	[更新者]		[内容]
- *	1	2015/08/17	V10L1	S1507112	 初版。　 
+ * 説明　　：员工详细信息的dataBean 
  */
 package databean;
 
 /**
  * 员工信息的dataBean
  * 
- * @author S1507112
  * @version 1.0
  */
 public class MemberInfoSelDetailDatabean {

@@ -4,13 +4,6 @@
  * 分類　　:memberSel-search action
  * 名称　　:查找员工信息的ACTION
  * 説明　　：负责从前台取得值，有时需做check后以dataBean的方式传给service,传结果给前台
- * 備考　　：
- * 作成　　：[日付] 2015/08/17 [氏名] S1507112
- * 履歴：
- * [NO]	[日付]		[Ver]		[更新者]		[内容]
- *	1	2015/08/17	V10L1		S1507112	 初版。　
- *	2	2015/08/20	V10L1.01 	S1507112	修改前台数据显示方式
- *	3	2015/08/28	V10L1.02	S1507112	HTML转义
  */
 package action;
 
@@ -29,8 +22,7 @@ import databean.MemberInfoSelDatabean;
  * @see service.MemberInfoSelService
  * @see com.opensymphony.xwork2.ActionSupport
  * @see databean.MemberInfoSelDatabean
- * @author S1507112
- * @version 1.02
+ * @version 1.0
  */
 public class MemberInfoSelAction extends ActionSupport {
 	/** serialVersionUID */

@@ -3,19 +3,13 @@
  * 
  * 分類　　:memberSel-dataBean 检索条件dataBean
  * 名称　　:查找条件的dataBean
- * 説明　　：包含查找条件的dataBean
- * 備考　　：
- * 作成　　：[日付] 2015/08/17 [氏名] S1507112
- * 履歴：
- * [NO]	[日付]		[Ver]	[更新者]		[内容]
- *	1	2015/08/17	V10L1	S1507112	 初版。　 
+ * 説明　　：包含查找条件的dataBean 
  */
 package databean;
 
 /**
  * 检索条件dataBean
  * 
- * @author S1507112
  * @version 1.0
  */
 public class MemberInfoSelSelectKeyDatabean {
