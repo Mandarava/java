@@ -1,7 +1,7 @@
 /**
  * MemberInfoSelSelectKeyDatabean.java
  * 
- * 分類　　:memberSel-dataBean dataBean
+ * 分類　　:memberSel-dataBean 检索条件dataBean
  * 名称　　:查找条件的dataBean
  * 説明　　：包含查找条件的dataBean
  * 備考　　：
@@ -13,36 +13,56 @@
 package databean;
 
 /**
- * select key dataBean
+ * 检索条件dataBean
  * 
  * @author S1507112
  * @version 1.0
  */
 public class MemberInfoSelSelectKeyDatabean {
 	/** 输入的工号检索条件 */
-	private String membercodeInput;
+	private String memberCodeInput;
 	/** 输入的姓名检索条件 */
 	private String nameInput;
 	/** 选中的radio的value */
 	private String deptName;
+	/** 报错信息 */
+	private String msg;
+
+	/**
+	 * 报错信息 的取得
+	 * 
+	 * @return 报错信息
+	 */
+	public String getMsg() {
+		return msg;
+	}
+
+	/**
+	 * 报错信息 的设定
+	 * 
+	 * @param 报错信息
+	 */
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
 	/**
 	 * 输入的工号检索条件 的取得
 	 * 
 	 * @return 输入的工号检索条件
 	 */
-	public String getMembercodeInput() {
-		return membercodeInput;
+	public String getMemberCodeInput() {
+		return memberCodeInput;
 	}
 
 	/**
 	 * 输入的工号检索条件 的设定
 	 * 
-	 * @param membercodeInput
+	 * @param memberCodeInput
 	 *            输入的工号检索条件
 	 */
-	public void setMembercodeInput(String membercodeInput) {
-		this.membercodeInput = membercodeInput;
+	public void setMemberCodeInput(String memberCodeInput) {
+		this.memberCodeInput = memberCodeInput;
 	}
 
 	/**

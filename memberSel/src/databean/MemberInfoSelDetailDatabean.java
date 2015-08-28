@@ -13,42 +13,42 @@
 package databean;
 
 /**
- * searchDataDatabean
+ * 员工信息的dataBean
  * 
  * @author S1507112
  * @version 1.0
  */
 public class MemberInfoSelDetailDatabean {
 	/** 工号 */
-	private String membercode;
+	private String memberCode;
 	/** 姓名 */
-	private String Name;
+	private String name;
 	/** 职务 */
-	private String job_level;
+	private String jobLevel;
 	/** 年收入 */
-	private String annual_income;
+	private String annualIncome;
 	/** 所属部门code */
-	private String deptcode;
+	private String deptCode;
 	/** 所属部门名称 */
-	private String deptnm;
+	private String deptNm;
 
 	/**
 	 * 工号 的取得
 	 * 
 	 * @return 工号
 	 */
-	public String getMembercode() {
-		return membercode;
+	public String getMemberCode() {
+		return memberCode;
 	}
 
 	/**
 	 * 工号 的设定
 	 * 
-	 * @param membercode
+	 * @param memberCode
 	 *            工号
 	 */
-	public void setMembercode(String membercode) {
-		this.membercode = membercode;
+	public void setMemberCode(String memberCode) {
+		this.memberCode = memberCode;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class MemberInfoSelDetailDatabean {
 	 * @return 姓名
 	 */
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class MemberInfoSelDetailDatabean {
 	 *            姓名
 	 */
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	/**
@@ -75,37 +75,18 @@ public class MemberInfoSelDetailDatabean {
 	 * 
 	 * @return 职务
 	 */
-	public String getJob_level() {
-		return job_level;
+	public String getJobLevel() {
+		return jobLevel;
 	}
 
 	/**
 	 * 职务 的设定
 	 * 
-	 * @param job_level
+	 * @param jobLevel
 	 *            职务
 	 */
-	public void setJob_level(String job_level) {
-		this.job_level = job_level;
-	}
-
-	/**
-	 * 年收入 的取得
-	 * 
-	 * @return 年收入
-	 */
-	public String getAnnual_income() {
-		return annual_income;
-	}
-
-	/**
-	 * 年收入 的设定
-	 * 
-	 * @param annual_income
-	 *            年收入
-	 */
-	public void setAnnual_income(String annual_income) {
-		this.annual_income = annual_income;
+	public void setJobLevel(String jobLevel) {
+		this.jobLevel = jobLevel;
 	}
 
 	/**
@@ -113,18 +94,37 @@ public class MemberInfoSelDetailDatabean {
 	 * 
 	 * @return 所属部门code
 	 */
-	public String getDeptcode() {
-		return deptcode;
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	/**
+	 * 年收入 的取得
+	 * 
+	 * @return 年收入
+	 */
+	public String getAnnualIncome() {
+		return annualIncome;
+	}
+
+	/**
+	 * 年收入 的设定
+	 * 
+	 * @param annualIncome
+	 *            年收入
+	 */
+	public void setAnnualIncome(String annualIncome) {
+		this.annualIncome = annualIncome;
 	}
 
 	/**
 	 * 所属部门code 的设定
 	 * 
-	 * @param deptcode
+	 * @param deptCode
 	 *            所属部门code
 	 */
-	public void setDeptcode(String deptcode) {
-		this.deptcode = deptcode;
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
 	}
 
 	/**
@@ -132,18 +132,18 @@ public class MemberInfoSelDetailDatabean {
 	 * 
 	 * @return the 所属部门名称
 	 */
-	public String getDeptnm() {
-		return deptnm;
+	public String getDeptNm() {
+		return deptNm;
 	}
 
 	/**
 	 * 所属部门名称 的设定
 	 * 
-	 * @param deptnm
+	 * @param deptNm
 	 *            所属部门名称
 	 */
-	public void setDeptnm(String deptnm) {
-		this.deptnm = deptnm;
+	public void setDeptNm(String deptNm) {
+		this.deptNm = deptNm;
 	}
 
 }

@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * searchDatabean include all the dataBean
+ * 总的dataBean
  * 
  * @see java.util.ArrayList
  * @see java.util.List
  * @author S1507112
- * @version 1.0
+ * @version 1.01
  */
 public class MemberInfoSelDatabean {
 	/** 员工数据的dataBean */

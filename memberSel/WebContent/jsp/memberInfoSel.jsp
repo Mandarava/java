@@ -39,8 +39,8 @@
 			<td rowspan=3 colspan=7 align="center" valign="top" height="66px">
 			検索条件設定</td>
 			<td rowspan=3 colspan=7>工号: <input type="text"
-				name="pageBean.searchKey.membercodeInput" id="membercodeInput"
-				maxlength=8 value="${pageBean.searchKey.membercodeInput}"
+				name="pageBean.searchKey.memberCodeInput" id="memberCodeInput"
+				maxlength=8 value="${pageBean.searchKey.memberCodeInput}"
 				onkeyup="onInput();" /></td>
 			<td rowspan=3 colspan=6 align="center" valign="middle"><img
 				src="./img/memberInfoSel1.jpg" style="width: 100px; height: 60px"></td>
@@ -74,8 +74,9 @@
 		<tr>
 		</tr>
 		<tr>
-			<td rowspan=1 colspan=15 height="22px"><font color="red"><label
-				id="errorInfo"></label></font></td>
+			<td rowspan=1 colspan=15 height="22px"><input type="text"
+				style="border: none; width: 98%; color: red" readonly id="errorInfo"
+				value="${pageBean.searchKey.msg}" name="${pageBean.searchKey.msg}" /></td>
 		</tr>
 	</table>
 	<br>
@@ -117,12 +118,12 @@
 		</tr>
 		<c:forEach begin="0" items="${pageBean.modelList}" var="model">
 			<tr align="center">
-				<td colspan=2 height="22">${model.membercode}</td>
+				<td colspan=2 height="22">${model.memberCode}</td>
 				<td colspan=3 height="22">${model.name}</td>
-				<td colspan=3 height="22">${model.job_level}</td>
-				<td align="right" colspan=4 height="22">${model.annual_income}</td>
-				<td colspan=3 height="22">${model.deptcode}</td>
-				<td align="left" colspan=5 height="22">${model.deptnm}</td>
+				<td colspan=3 height="22">${model.jobLevel}</td>
+				<td align="right" colspan=4 height="22">${model.annualIncome}</td>
+				<td colspan=3 height="22">${model.deptCode}</td>
+				<td align="left" colspan=5 height="22">${model.deptNm}</td>
 			</tr>
 		</c:forEach>
 	</table>
