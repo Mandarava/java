@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="default" namespace="/" extends="struts-default">
+		<action name="Select" class="action.SearchViewAction" method="doSelect">
+			<result name="success">jsp/searchView.jsp</result>
+		</action>
+		<action name="newView" class="action.NewViewAction" method="newInfo">
+			<result name="success">jsp/newView.jsp</result>
+		</action>
+		<action name="updateView" class="action.UpdateViewAction"
+			method="updateInfo">
+			<result name="success">jsp/updateView.jsp</result>
+		</action>
+		<action name="deleteView" class="action.SearchViewAction"
+			method="deleteInfo">
+			<result name="success">jsp/searchView.jsp</result>
+		</action>
+	</package>
+</struts>
