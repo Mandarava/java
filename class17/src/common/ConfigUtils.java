@@ -1,16 +1,3 @@
-/**
- * ConfigUtils.java
- * 
- * 分類　　:memberSel-common	
- * 名称　　:用于获得配置文件
- * 説明　　：读取配置文件
- * 備考　　：
- * 作成　　：[日付] 2015/08/26 [氏名] S1507112
- * 履歴：
- * [NO]	[日付]		[Ver]		[更新者]		[内容]
- *	1	2015/08/26	V10L1		S1507112	 初版。　 
- *	2	2015/08/27	V10L1.01	S1507112	修改成单例模式
- */
 package common;
 
 import java.io.FileInputStream;
@@ -23,7 +10,6 @@ import java.util.Properties;
  * @see java.io.FileInputStream
  * @see java.io.IOException
  * @see java.util.Properties
- * @author S1507112
  * @version 1.01
  */
 public class ConfigUtils {
