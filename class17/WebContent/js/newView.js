@@ -1,6 +1,0 @@
-function login() {
-	
-}
-
-function goToSearchView() {
-}
