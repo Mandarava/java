@@ -42,11 +42,11 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath:com/mbp/qa/mapping/*.xml"></property>
+		<property name="mapperLocations" value="classpath:com/bugqa/qa/mapping/*.xml"></property>
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.mbp.qa.dao" />
+		<property name="basePackage" value="com.bugqa.qa.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 
@@ -57,7 +57,7 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<context:component-scan base-package="com.mbp.qa" />
+	<context:component-scan base-package="com.bugqa.qa" />
 
 
 </beans>

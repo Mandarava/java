@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>ＭＢＰ</title>
+<title>homepage</title>
 <!--  Android 5 Chrome Color-->
 <meta name="theme-color" content="#E0E0E0 ">
 <!-- CSS-->
@@ -34,7 +34,7 @@
 			<ul id="nav-mobile" class="side-nav fixed ">
 				<li class="logo"><a id="logo-container" href="homepage" class="brand-logo"> <object
 							id="front-page-logo" type="image/svg+xml"
-							data="<%=request.getContextPath()%>/resources/materialize/images/materialize.svg">ＭＢＰ</object>
+							data="<%=request.getContextPath()%>/resources/materialize/images/materialize.svg"></object>
 				</a></li>
 
 				<li class="bold"><a id="dashboard" href="#"
@@ -162,8 +162,8 @@
 	<main>
 	<nav>
 		<div class="nav-wrapper">
-			<a href="homepage" class="brand-logo hide-on-small-only">ＭＢＰ</a> <a href="homepage"
-				class="brand-logo hide-on-med-and-up">ＭＢＰ</a>
+			<a href="homepage" class="brand-logo hide-on-small-only"></a> <a href="homepage"
+				class="brand-logo hide-on-med-and-up"></a>
 			<ul class="right hide-on-med-and-down">
 				<%-- Dropdown Trigger --%>
 				<li><a class="dropdown-button" href="#!" data-activates="dropdown1"><span

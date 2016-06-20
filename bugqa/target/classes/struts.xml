@@ -14,9 +14,9 @@
 
 		<interceptors>
 			<interceptor name="loginedCheck"
-				class="com.mbp.qa.interceptor.LoginedCheckInterceptor" />
+				class="com.bugqa.qa.interceptor.LoginedCheckInterceptor" />
 			<interceptor name="stringInterceptor"
-				class="com.mbp.qa.interceptor.StringInterceptor"></interceptor>
+				class="com.bugqa.qa.interceptor.StringInterceptor"></interceptor>
 			<interceptor-stack name="checkLoginStack">
 				<interceptor-ref name="loginedCheck" />
 				<interceptor-ref name="json"></interceptor-ref>
@@ -41,13 +41,13 @@
 				result="exception" />
 		</global-exception-mappings>
 
-		<action name="redirectTo*" class="com.mbp.qa.action.MAI0020Action"
+		<action name="redirectTo*" class="com.bugqa.qa.action.MAI0020Action"
 			method="pageRedirect">
 			<result name="success">/WEB-INF/jsp/{1}.jsp</result>
 			<interceptor-ref name="checkLoginStack" />
 		</action>
 
-		<action name="*Action*" class="com.mbp.qa.action.{1}Action"
+		<action name="*Action*" class="com.bugqa.qa.action.{1}Action"
 			method="{2}">
 			<result name="success">/WEB-INF/jsp/{1}.jsp</result>
 			<result name="json" type="json">
@@ -71,29 +71,29 @@
 			<!-- <interceptor-ref name="token" /> -->
 		</action>
 
-		<action name="index" class="com.mbp.qa.action.MAI0010Action"
+		<action name="index" class="com.bugqa.qa.action.MAI0010Action"
 			method="toIndex">
 			<result name="success">/WEB-INF/jsp/Login.jsp</result>
 		</action>
 
-		<action name="main" class="com.mbp.qa.action.MAI0010Action"
+		<action name="main" class="com.bugqa.qa.action.MAI0010Action"
 			method="login">
 			<result name="input">/WEB-INF/jsp/Login.jsp</result>
 			<result name="success" type="chain">homepage</result>
 		</action>
 
-		<action name="homepage" class="com.mbp.qa.action.MAI0010Action"
+		<action name="homepage" class="com.bugqa.qa.action.MAI0010Action"
 			method="toHomepage">
 			<result name="success">/WEB-INF/jsp/MAI0060.jsp</result>
 			<interceptor-ref name="checkLoginStack" />
 		</action>
 
-		<action name="timeout" class="com.mbp.qa.action.MAI0020Action"
+		<action name="timeout" class="com.bugqa.qa.action.MAI0020Action"
 			method="pageRedirect">
 			<result name="success">/WEB-INF/jsp/ERR0020.jsp</result>
 		</action>
 
-		<action name="error" class="com.mbp.qa.action.MAI0020Action"
+		<action name="error" class="com.bugqa.qa.action.MAI0020Action"
 			method="pageRedirect">
 			<result name="success">/WEB-INF/jsp/ERR0010.jsp</result>
 		</action>

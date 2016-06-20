@@ -356,33 +356,6 @@ CREATE TABLE `tbl_modulemaster` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='モジュールマスター';
 
 -- ----------------------------
--- Records of tbl_modulemaster
--- ----------------------------
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '2', '案件フォルダ作成処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '20', 'MIB登録情報送信処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '22', 'オーソリ承認処理', '0', '1', '2016-03-01 10:06:18.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '24', '新契約申込TR作成処理', '0', '1', '2016-03-01 10:06:18.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '27', '業務会計処理', '0', '1', '2016-03-01 10:06:18.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '28', '新契約時変更 (承諾) 処理', '0', '1', '2016-03-01 10:06:18.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '29', '成立工程データ作成処理', '0', '1', '2016-03-01 10:06:18.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '3', '後送書類紐付け処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '4', '流用書類紐付け処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '5', '法人案件作成処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '6', '法人機械査定処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '7', 'ホスト送信前処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '8', '機械査定ホスト送信処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', '9', '機械査定ホスト受信処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP01', '機械査定サーバー処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP02', '査定案件投入処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP03', 'LINC結果受信処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP04', '成立後書類受付処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP05', '再査定経緯作成処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP06', '口座情報登録処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP07', '取報流用処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP09', '成立保留自動解除処理', '0', '1', '2016-03-01 10:06:17.000');
-INSERT INTO `tbl_modulemaster` VALUES ('14028FSI01', '1', 'GNBCP10', '不成立データ登録処理', '0', '1', '2016-03-01 10:06:17.000');
-
--- ----------------------------
 -- Table structure for tbl_projectmaster
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_projectmaster`;
@@ -401,11 +374,6 @@ CREATE TABLE `tbl_projectmaster` (
   `CHARGEID` varchar(16) NOT NULL COMMENT '責任者',
   PRIMARY KEY (`PROJECTID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='プロジェクトマスター';
-
--- ----------------------------
--- Records of tbl_projectmaster
--- ----------------------------
-INSERT INTO `tbl_projectmaster` VALUES ('14028FSI01', 'MBP项目管理系统', 'MBP', '1', '2016-01-18 16:57:31', '2016-01-19 16:57:33', '2016-01-18 16:57:36', '1', '1', '2016-05-09 16:27:49.577', '0', 'admin');
 
 -- ----------------------------
 -- Table structure for tbl_projectmembermaster
