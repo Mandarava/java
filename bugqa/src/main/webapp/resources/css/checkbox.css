@@ -1,7 +1,0 @@
-[type="checkbox"]:not(:checked), 
-[type="checkbox"]:checked {
-     position: relative; 
-     left: 2px; 
-     opacity: 1; 
-     color : black;
-}
