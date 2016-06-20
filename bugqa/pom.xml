@@ -356,7 +356,7 @@
 
 			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>wagon-maven-plugin</artifactId> 
 				<version>1.0</version> <configuration> <serverId>240522</serverId> <fromFile>target/bugqa.war</fromFile> 
-				上传到Tomcat的webapps目录下 <url>scp://root@104.160.33.237:27365/usr/local/tomcat7/webapps</url> 
+				上传到Tomcat的webapps目录下 <url>scp://root@100.100.22.222:27365/usr/local/tomcat7/webapps</url> 
 				<commands> <command>sh /usr/local/tomcat7/bin/shutdown.sh</command> <command>rm 
 				-rf /usr/local/tomcat7/webapps/bugqa</command> <command>sh /usr/local/tomcat7/bin/startup.sh</command> 
 				</commands> <displayCommandOutputs>true</displayCommandOutputs> </configuration> 
