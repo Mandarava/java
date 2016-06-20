@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bugqa.qa.dao.ModuleMasterMapper">
+	<resultMap id="BaseResultMap" type="com.bugqa.qa.model.po.ModuleMaster">
+		<id column="PROJECTID" jdbcType="VARCHAR" property="projectId" />
+		<id column="GROUPID" jdbcType="VARCHAR" property="groupId" />
+		<id column="MODULEID" jdbcType="VARCHAR" property="moduleId" />
+		<result column="MODULENAME" jdbcType="VARCHAR" property="moduleName" />
+		<result column="DELETEFLG" jdbcType="CHAR" property="deleteFlg" />
+		<result column="UPDATERID" jdbcType="VARCHAR" property="updaterId" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		PROJECTID, GROUPID, MODULEID, MODULENAME, DELETEFLG,
+		UPDATERID,
+		UPDATETIME
+	</sql>
+	
+	<cache />
+	
+	<select id="getModule" parameterType="java.util.Map" resultMap="BaseResultMap" >
+	<![CDATA[
+		SELECT
+			MODULENAME,
+			MODULEID
+		FROM
+			tbl_ModuleMaster
+		WHERE
+			PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND GROUPID = #{groupId,jdbcType=VARCHAR}
+		AND DELETEFLG = '0'
+		ORDER BY 
+			MODULEID
+	]]>
+	</select>
+
+
+	<select id="getModInfo" parameterType="String" resultMap="BaseResultMap" >
+	<![CDATA[
+		SELECT
+			MODULENAME
+		FROM
+			tbl_ModuleMaster
+		WHERE
+			PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND DELETEFLG = '0'
+		ORDER BY
+			GROUPID,
+			MODULEID
+	]]>
+	</select>
+	
+	<!-- module信息 -->
+	<select id="moduleMsg" parameterType="String" resultType="PRO0030RetValue" useCache="false">
+		SELECT
+			B.GROUPID as groupId,
+			B.GROUPNAME as groupName,
+			A.MODULEID as moduleId,
+			A.MODULENAME as moduleName
+		FROM tbl_GroupMaster AS B 
+		LEFT JOIN tbl_ModuleMaster AS A
+		ON B.GROUPID = A.GROUPID
+		AND B.PROJECTID = A.PROJECTID
+		AND A.DELETEFLG ='0'
+		WHERE
+			B.PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND B.DELETEFLG ='0'
+		ORDER BY B.GROUPID,
+		 A.MODULEID 
+	</select>
+
+	<!-- 检索模块信息 -->
+	<select id="moduleListByPage" parameterType="java.util.Map" resultMap ="BaseResultMap">
+		SELECT
+		MODULEID,MODULENAME
+		FROM
+			tbl_ModuleMaster
+		WHERE
+			PROJECTID = #{arg.projectId,jdbcType=VARCHAR}
+		AND DELETEFLG = '0'
+		AND GROUPID = #{arg.groupId,jdbcType=VARCHAR}
+		ORDER BY
+			MODULEID 
+	</select>
+	
+	<!-- 添加模块信息 -->
+	<insert id="addModule" parameterType="java.util.Map">
+		insert into
+			tbl_ModuleMaster(PROJECTID,GROUPID,MODULEID,MODULENAME,DELETEFLG,UPDATERID,UPDATETIME)
+		values(#{projectId,jdbcType=VARCHAR},#{groupId,jdbcType=VARCHAR},#{moduleId,jdbcType=VARCHAR},
+				#{moduleName,jdbcType=VARCHAR},'0',#{updaterId,jdbcType=VARCHAR},NOW())
+	</insert>
+
+	<!-- 删除模块信息 -->
+	<update id="deleteModule" parameterType="java.util.Map">
+		update tbl_ModuleMaster
+		set  DELETEFLG = '1'
+		where  PROJECTID = #{projectId,jdbcType=VARCHAR}
+		and  GROUPID = #{groupId,jdbcType=VARCHAR}
+		and  MODULEID = #{moduleId,jdbcType=VARCHAR}
+	</update>
+	
+	
+</mapper>

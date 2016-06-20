@@ -1,0 +1,169 @@
+.login-body {
+	background: #e9e9e9;
+	color: #666666;
+	font-size: 14px;
+	background-size: cover;
+	font-family: Montserrat;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+ul.errorMessage {
+	color: #FF3300;
+}
+
+ul.errorMessage {
+	list-style-type: none;
+	margin: 0px;
+	padding: 3px;
+}
+
+ul.errorMessage li {
+	list-style-type: none;
+}
+
+/* Pen Title */
+.pen-title {
+	padding: 40px 0;
+	text-align: center;
+	letter-spacing: 2px;
+}
+
+.pen-title h1 {
+	margin: 0 0 0px;
+	font-size: 40px;
+	font-weight: 300;
+}
+
+.login-block {
+	width: 320px;
+	padding: 20px;
+	background: #fff;
+	border-radius: 5px;
+	border-top: 5px solid #7986cb;
+	margin: 0 auto;
+}
+
+.login-block h1 {
+	text-align: center;
+	color: #000;
+	font-size: 18px;
+	text-transform: uppercase;
+	margin-top: 0;
+	margin-bottom: 20px;
+}
+
+.login-block input {
+	width: 100%;
+	height: 42px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	margin-bottom: 20px;
+	font-size: 14px;
+	font-family: Montserrat;
+	padding: 0 20px 0 50px;
+	outline: none;
+}
+
+/* input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+	-webkit-text-fill-color: #333;
+} */
+.login-block input#username {
+	background: #fff url('../images/u0XmBmv.png') 20px top no-repeat;
+	background-size: 16px 80px;
+}
+
+.login-block input#username:focus {
+	background: #fff url('../images/u0XmBmv.png') 20px bottom no-repeat;
+	background-size: 16px 80px;
+}
+
+.login-block input#password {
+	background: #fff url('../images/Qf83FTt.png') 20px top no-repeat;
+	background-size: 16px 80px;
+}
+
+.login-block input#password:focus {
+	background: #fff url('../images/Qf83FTt.png') 20px bottom no-repeat;
+	background-size: 16px 80px;
+}
+
+.login-block input:active, .login-block input:focus {
+	border: 1px solid #64b5f6;
+}
+
+.login-block button {
+	width: 100%;
+	height: 40px;
+	background: #7986cb;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid #7986cb;
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 14px;
+	font-family: Montserrat;
+	outline: none;
+	cursor: pointer;
+}
+
+.login-block button:hover {
+	background: #5c6bc0;
+}
+
+.footer-copyright {
+	overflow: hidden;
+	height: 50px;
+	line-height: 50px;
+	color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(51, 51, 51, 0.08);
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	text-align: center
+}
+
+.logo {
+	width: 213px;
+	height: 36px;
+	background: url('http://i.imgur.com/fd8Lcso.png') no-repeat;
+	margin: 30px auto;
+}
+
+.parsley-errors-list {
+	margin: 1px 0 1px;
+	padding: 0;
+	list-style-type: none;
+	font-size: 0.9em;
+	line-height: 1em;
+	opacity: 1;
+	transition: all .3s ease-in;
+	-o-transition: all .3s ease-in;
+	-moz-transition: all .3s ease-in;
+	-webkit-transition: all .3s ease-in;
+	color: red
+}
+
+.parsley-errors-list.filled {
+	opacity: 1;
+}
+
+table th a {
+	color: #212121
+}
+
+nav {
+	background-color: #5c6bc0;
+}
+/* 
+td, th {
+	padding: 13px 2px !important
+} */
+
+h4 {
+	font-size: 2.0rem
+}

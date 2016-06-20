@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bugqa.qa.dao.QAMapper">
+	<resultMap id="BaseResultMap" type="com.bugqa.qa.model.po.QA">
+		<id column="PROJECTID" jdbcType="VARCHAR" property="projectId" />
+		<id column="QANO" jdbcType="VARCHAR" property="qaNo" />
+		<result column="GROUPID" jdbcType="VARCHAR" property="groupId" />
+		<result column="MODULEID" jdbcType="VARCHAR" property="moduleId" />
+		<result column="COMPANYFLG" jdbcType="CHAR" property="companyFlg" />
+		<result column="QAQSTATE" jdbcType="CHAR" property="qaQState" />
+		<result column="QAASTATE" jdbcType="CHAR" property="qaAState" />
+		<result column="STAGE" jdbcType="CHAR" property="stage" />
+		<result column="QUESTIONER" jdbcType="VARCHAR" property="questioner" />
+		<result column="QUESTIONDATE" jdbcType="TIMESTAMP" property="questionDate" />
+		<result column="EXPDATE" jdbcType="TIMESTAMP" property="expDate" />
+		<result column="ANSWERER" jdbcType="VARCHAR" property="answerer" />
+		<result column="ANSWERDATE" jdbcType="TIMESTAMP" property="answerDate" />
+		<result column="QATitle" jdbcType="VARCHAR" property="qaTitle" />
+		<result column="QATitle_CN" jdbcType="VARCHAR" property="qaTitleCn" />
+		<result column="QUESTIONINFO" jdbcType="VARCHAR" property="questionInfo" />
+		<result column="QUESTIONINFO_CN" jdbcType="VARCHAR" property="questionInfoCn" />
+		<result column="QATTACHEDINFO" jdbcType="VARCHAR" property="qattachedInfo" />
+		<result column="ANSWERINFO" jdbcType="VARCHAR" property="answerInfo" />
+		<result column="ANSWERINFO_CN" jdbcType="VARCHAR" property="answerInfoCn" />
+		<result column="AATTACHEDINFO" jdbcType="VARCHAR" property="aattachedInfo" />
+		<result column="CAUSEDIV" jdbcType="CHAR" property="causeDiv" />
+		<result column="QUESTIONDIV" jdbcType="CHAR" property="questionDiv" />
+		<result column="RELATIONQANO" jdbcType="VARCHAR" property="relationQaNo" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="REMARK_CN" jdbcType="VARCHAR" property="remarkCn" />
+		<result column="UPDATERID" jdbcType="VARCHAR" property="updaterId" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<resultMap id="detailedQAInfo" type="com.bugqa.qa.model.po.QA">
+
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		PROJECTID, QANO, GROUPID, MODULEID, COMPANYFLG, QAQSTATE,
+		QAASTATE,
+		STAGE,
+		QUESTIONER,
+		QUESTIONDATE, EXPDATE, ANSWERER,
+		ANSWERDATE,
+		QATitle,
+		QATitle_CN, QUESTIONINFO,
+		QUESTIONINFO_CN,
+		QATTACHEDINFO,
+		ANSWERINFO,
+		ANSWERINFO_CN, AATTACHEDINFO,
+		CAUSEDIV,
+		QUESTIONDIV,
+		RELATIONQANO,
+		REMARK,
+		REMARK_CN, UPDATERID,
+		UPDATETIME
+	</sql>
+
+	<select id="getQAMyWorkByPage" parameterType="MAI0061ArgValue"
+		resultType="QAMyWorkDTO">
+	<![CDATA[
+		SELECT
+			a.PROJECTID,
+			a.QANO,
+			a.QATitle,
+			DATE_FORMAT(a.QUESTIONDATE, '%Y/%m/%d') AS QUESTIONDATE,
+			DATE_FORMAT(a.EXPDATE, '%Y/%m/%d') AS EXPDATE,
+			DATE_FORMAT(a.ANSWERDATE, '%Y/%m/%d') AS ANSWERDATE,
+			b.PROJECTNAME,
+			c.USERNAME AS QUESTIONER,
+			d.USERNAME AS ANSWERER,
+			e.GROUPNAME,
+			f.MODULENAME,
+			g.NAME AS QAQSTATE,
+			i. NAME AS QAASTATE
+		FROM
+			tbl_QA a
+		LEFT JOIN tbl_ProjectMaster b ON a.PROJECTID = b.PROJECTID
+		LEFT JOIN tbl_UserMaster c ON a.QUESTIONER = c.USERID
+		LEFT JOIN tbl_UserMaster d ON a.ANSWERER = d.USERID
+		LEFT JOIN tbl_GroupMaster e ON a.PROJECTID = e.PROJECTID
+		AND a.GROUPID = e.GROUPID
+		LEFT JOIN tbl_ModuleMaster f ON a.PROJECTID = f.PROJECTID
+		AND a.GROUPID = f.GROUPID
+		AND a.MODULEID = f.MODULEID
+		LEFT JOIN tbl_GeneralMaster g ON g.KBN = '06'
+		AND a.QAQSTATE = g. CODE
+		LEFT JOIN tbl_ProjectMemberMaster h ON a.PROJECTID = h.PROJECTID
+		AND h.USERID = #{user.userId,jdbcType=VARCHAR}
+		LEFT JOIN tbl_GeneralMaster i ON i.KBN = '07'
+		AND a.QAASTATE = i. CODE
+		WHERE
+			b.STATEFLG IN ('0', '1')
+		AND b.DELETEFLG = 0
+		AND (
+			(
+				QUESTIONER = #{user.userId,jdbcType=VARCHAR}
+				AND QAQSTATE IN ('1', '4')
+				AND
+				IF (QAASTATE IS NULL, '', QAASTATE) = '3'
+			)
+			OR (
+				h.WORKTYPE = '7'
+				AND QAQSTATE <> '5'
+			)
+			OR (
+				ANSWERER = #{user.userId,jdbcType=VARCHAR}
+				AND QAQSTATE = '1'
+				AND
+				IF (QAASTATE IS NULL, '', QAASTATE) <> '3'
+			)
+		)
+		ORDER BY
+			a.EXPDATE,
+			a.QANO
+	]]>
+	</select>
+
+	<select id="getQAMyNoticeByPage" parameterType="MAI0061ArgValue"
+		resultType="QAMyNoticeDTO">
+	<![CDATA[
+		SELECT
+			a.PROJECTID,
+			a.QANO,
+			a.QATitle,
+			DATE_FORMAT(a.QUESTIONDATE, '%Y/%m/%d') AS QUESTIONDATE,
+			DATE_FORMAT(a.EXPDATE, '%Y/%m/%d') AS EXPDATE,
+			DATE_FORMAT(a.ANSWERDATE, '%Y/%m/%d') AS ANSWERDATE,
+			b.PROJECTNAME,
+			c.USERNAME AS QUESTIONER,
+			d.USERNAME AS ANSWERER,
+			e.GROUPNAME,
+			f.MODULENAME,
+			g.NAME AS QAQSTATE,
+			i. NAME AS QAASTATE
+		FROM
+			tbl_QA a
+		LEFT JOIN tbl_ProjectMaster b ON a.PROJECTID = b.PROJECTID
+		LEFT JOIN tbl_UserMaster c ON a.QUESTIONER = c.USERID
+		LEFT JOIN tbl_UserMaster d ON a.ANSWERER = d.USERID
+		LEFT JOIN tbl_GroupMaster e ON a.PROJECTID = e.PROJECTID
+		AND a.GROUPID = e.GROUPID
+		LEFT JOIN tbl_ModuleMaster f ON a.PROJECTID = f.PROJECTID
+		AND a.GROUPID = f.GROUPID
+		AND a.MODULEID = f.MODULEID
+		LEFT JOIN tbl_GeneralMaster g ON g.KBN = '06'
+		AND a.QAQSTATE = g. CODE
+		LEFT JOIN tbl_ProjectMemberMaster h ON a.PROJECTID = h.PROJECTID
+		AND h.USERID = #{user.userId,jdbcType=VARCHAR}
+		LEFT JOIN tbl_GeneralMaster i ON i.KBN = '07'
+		AND a.QAASTATE = i. CODE
+		WHERE
+			b.STATEFLG IN ('0', '1')
+		AND b.DELETEFLG = 0
+		AND (
+			(
+				QUESTIONER = #{user.userId,jdbcType=VARCHAR}
+				AND QAQSTATE = '1'
+				AND
+				IF (QAASTATE IS NULL, '', QAASTATE) <> '3'
+			)
+			OR (
+				h.WORKTYPE IN ('1', '3')
+				AND QAQSTATE NOT IN ('3', '5')
+			)
+			OR (
+				ANSWERER = #{user.userId,jdbcType=VARCHAR}
+				AND QAQSTATE IN ('1', '4')
+				AND
+				IF (QAASTATE IS NULL, '', QAASTATE) = '3'
+			)
+		)
+		ORDER BY
+			a.EXPDATE DESC,
+			a.QANO
+		
+	]]>
+	</select>
+
+	<sql id="baseQASearchSql">
+	<![CDATA[
+		SELECT
+			a.PROJECTID,
+			a.QANO,
+			a.QATitle,
+			DATE_FORMAT(a.QUESTIONDATE, '%Y/%m/%d') AS QUESTIONDATE,
+			DATE_FORMAT(a.EXPDATE, '%Y/%m/%d') AS EXPDATE,
+			DATE_FORMAT(a.ANSWERDATE, '%Y/%m/%d') AS ANSWERDATE,
+			b.PROJECTNAME,
+			c.USERNAME AS QUESTIONER,
+			d.USERNAME AS ANSWERER,
+			e.GROUPNAME,
+			f.MODULENAME,
+			g. NAME AS QAQSTATE,
+			h. NAME AS QAASTATE
+		FROM
+			tbl_QA a
+		LEFT JOIN tbl_ProjectMaster b ON a.PROJECTID = b.PROJECTID
+		LEFT JOIN tbl_UserMaster c ON a.QUESTIONER = c.USERID
+		LEFT JOIN tbl_UserMaster d ON a.ANSWERER = d.USERID
+		LEFT JOIN tbl_GroupMaster e ON a.PROJECTID = e.PROJECTID
+		AND a.GROUPID = e.GROUPID
+		LEFT JOIN tbl_ModuleMaster f ON a.PROJECTID = f.PROJECTID
+		AND a.GROUPID = f.GROUPID
+		AND a.MODULEID = f.MODULEID
+		LEFT JOIN tbl_GeneralMaster g ON g.KBN = '06'
+		AND a.QAQSTATE = g. CODE
+		LEFT JOIN tbl_GeneralMaster h ON h.KBN = '07'
+		AND
+		IF (
+			a.QAASTATE IS NULL,
+			'',
+			a.QAASTATE
+		) = h. CODE
+		
+	]]>
+	</sql>
+
+	<select id="baseQASearchflg1ByPage" parameterType="QA0060ArgValue"
+		resultType="BaseQADTO">
+
+		<include refid="baseQASearchSql"></include>
+		
+	<![CDATA[
+		WHERE
+			b.STATEFLG IN (0, 1)
+		AND b.DELETEFLG = 0
+		AND a.QUESTIONER = #{user.userId,jdbcType=VARCHAR}
+		AND a.QAQSTATE <> '5'
+		ORDER BY
+			a.EXPDATE,
+			a.QANO DESC
+	]]>
+	</select>
+
+	<select id="baseQASearchflg2ByPage" parameterType="QA0060ArgValue"
+		resultType="BaseQADTO">
+
+		<include refid="baseQASearchSql"></include>
+		
+	<![CDATA[
+		WHERE
+			b.STATEFLG IN (0, 1)
+		AND b.DELETEFLG = 0
+		AND a.ANSWERER = #{user.userId,jdbcType=VARCHAR}
+		AND a.QAQSTATE <> '5'
+		ORDER BY
+			a.EXPDATE,
+			a.QANO DESC
+	]]>
+	</select>
+
+	<select id="baseQASearchflg3ByPage" parameterType="QA0060ArgValue"
+		resultType="BaseQADTO">
+
+		<include refid="baseQASearchSql"></include>
+		
+	<![CDATA[
+		WHERE
+			b.STATEFLG IN (0, 1)
+		AND b.DELETEFLG = 0
+		AND a.QAQSTATE <> '5'
+		AND
+		IF (
+			a.QAASTATE IS NULL,
+			'',
+			a.QAASTATE
+		) <> '3'
+	]]>
+		<if test="user.companyFlg == 1">
+			AND a.COMPANYFLG = '1'
+		</if>
+	<![CDATA[
+		AND a.PROJECTID IN (
+			SELECT DISTINCT
+				(PROJECTID)
+			FROM
+				tbl_ProjectMemberMaster
+			WHERE
+				USERID = #{user.userId,jdbcType=VARCHAR}
+		)
+		ORDER BY
+			a.EXPDATE,
+			a.QANO DESC
+	]]>
+	</select>
+
+	<select id="baseQASearchflg4ByPage" parameterType="QA0060ArgValue"
+		resultType="BaseQADTO">
+
+		<include refid="baseQASearchSql"></include>
+		
+	<![CDATA[
+		WHERE
+			b.STATEFLG IN (0, 1)
+		AND b.DELETEFLG = 0
+		AND a.QAQSTATE NOT IN ('3','5')
+	]]>
+		<if test="user.companyFlg == 1">
+			AND a.COMPANYFLG = '1'
+		</if>
+	<![CDATA[
+		AND a.PROJECTID IN (
+			SELECT DISTINCT
+				(PROJECTID)
+			FROM
+				tbl_ProjectMemberMaster
+			WHERE
+				USERID = #{user.userId,jdbcType=VARCHAR}
+		)
+		ORDER BY
+			a.EXPDATE,
+			a.QANO DESC
+	]]>
+	</select>
+
+	<select id="baseQASearchflg5ByPage" parameterType="QA0060ArgValue"
+		resultType="BaseQADTO">
+
+		<include refid="baseQASearchSql"></include>
+		
+	<![CDATA[
+		WHERE
+			b.STATEFLG IN (0, 1)
+		AND b.DELETEFLG = 0
+		AND a.QAQSTATE <> '5'
+	]]>
+		<if test="user.companyFlg == 1">
+			AND a.COMPANYFLG = '1'
+		</if>
+	<![CDATA[
+		AND a.PROJECTID IN (
+			SELECT DISTINCT
+				(PROJECTID)
+			FROM
+				tbl_ProjectMemberMaster
+			WHERE
+				USERID = #{user.userId,jdbcType=VARCHAR}
+		)
+		ORDER BY
+			a.EXPDATE,
+			a.QANO DESC
+	]]>
+	</select>
+
+	<sql id="baseQASearchflg6Sql">
+	<![CDATA[
+		SELECT
+			a.PROJECTID,
+			a.QANO,
+			a.QATitle,
+			DATE_FORMAT(a.QUESTIONDATE, '%Y/%m/%d') AS QUESTIONDATE,
+			DATE_FORMAT(a.EXPDATE, '%Y/%m/%d') AS EXPDATE,
+			DATE_FORMAT(a.ANSWERDATE, '%Y/%m/%d') AS ANSWERDATE,
+			b.PROJECTNAME,
+			c.USERNAME AS QUESTIONER,
+			d.USERNAME AS ANSWERER,
+			e.GROUPNAME,
+			f.MODULENAME,
+			g. NAME AS QAQSTATE,
+			h. NAME AS QAASTATE
+		FROM
+			tbl_QA a
+		LEFT JOIN tbl_ProjectMaster b ON a.PROJECTID = b.PROJECTID
+		LEFT JOIN tbl_UserMaster c ON a.QUESTIONER = c.USERID
+		LEFT JOIN tbl_UserMaster d ON a.ANSWERER = d.USERID
+		LEFT JOIN tbl_GroupMaster e ON a.PROJECTID = e.PROJECTID
+		AND a.GROUPID = e.GROUPID
+		LEFT JOIN tbl_ModuleMaster f ON a.PROJECTID = f.PROJECTID
+		AND a.GROUPID = f.GROUPID
+		AND a.MODULEID = f.MODULEID
+		LEFT JOIN tbl_GeneralMaster g ON g.KBN = '06'
+		AND a.QAQSTATE = g. CODE
+		LEFT JOIN tbl_GeneralMaster h ON h.KBN = '07'
+		AND
+		IF (
+			a.QAASTATE IS NULL,
+			'',
+			a.QAASTATE
+		) = h. CODE
+		WHERE
+			a.PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND a.QAQSTATE <> '5'
+	]]>
+		<if test="user.companyFlg == 1">
+			AND a.COMPANYFLG = '1'
+		</if>
+	</sql>
+
+	<select id="baseQASearchflg6ByPage" parameterType="QA0060ArgValue"
+		resultType="BaseQADTO">
+		<include refid="baseQASearchflg6Sql" />
+	<![CDATA[
+		ORDER BY
+			a.EXPDATE,
+			a.QANO DESC
+	]]>
+	</select>
+
+	<sql id="customQASearchSql">
+	<![CDATA[
+		SELECT
+			A.QANO,
+			A.PROJECTID,
+			A.QATitle,
+			DATE_FORMAT(a.QUESTIONDATE, '%Y/%m/%d') AS QUESTIONDATE,
+			DATE_FORMAT(a.EXPDATE, '%Y/%m/%d') AS EXPDATE,
+			DATE_FORMAT(a.ANSWERDATE, '%Y/%m/%d') AS ANSWERDATE,
+			B.PROJECTNAME,
+			C.GROUPNAME,
+			D.MODULENAME,
+			E. NAME QAASTATE,
+			F. NAME STAGE,
+			G.USERNAME QUESTIONER,
+			H.USERNAME ANSWERER,
+			I. NAME QAQSTATE,
+			J. NAME QUESTIONDIV,
+			K. NAME CAUSEDIV
+		FROM
+			tbl_QA A
+		LEFT JOIN tbl_ProjectMaster B ON A.PROJECTID = B.PROJECTID
+		LEFT JOIN tbl_GroupMaster C ON A.PROJECTID = C.PROJECTID
+		AND A.GROUPID = C.GROUPID
+		LEFT JOIN tbl_ModuleMaster D ON A.PROJECTID = D.PROJECTID
+		AND A.GROUPID = D.GROUPID
+		AND A.MODULEID = D.MODULEID
+		LEFT JOIN tbl_GeneralMaster E ON A.QAASTATE = E. CODE
+		AND E.KBN = '07'
+		LEFT JOIN tbl_GeneralMaster F ON A.STAGE = F. CODE
+		AND F.KBN = '01'
+		LEFT JOIN tbl_UserMaster G ON A.QUESTIONER = G.USERID
+		LEFT JOIN tbl_UserMaster H ON A.ANSWERER = H.USERID
+		LEFT JOIN tbl_GeneralMaster I ON A.QAQSTATE = I. CODE
+		AND I.KBN = '06'
+		LEFT JOIN tbl_GeneralMaster J ON A.QUESTIONDIV = J. CODE
+		AND J.KBN = 'QD'
+		LEFT JOIN tbl_GeneralMaster K ON A.CAUSEDIV = K. CODE
+		AND K.KBN = 'RQ'
+		]]>
+		<where>
+			<if test="projectId != null">
+				AND A.PROJECTID= #{projectId,jdbcType=VARCHAR}
+			</if>
+			<if test="qaNo != null">
+				AND A.QANO LIKE CONCAT('%', #{qaNo,jdbcType=VARCHAR},
+				'%')
+			</if>
+			<if test="groupId != null">
+				AND A.GROUPID = #{groupId,jdbcType=VARCHAR}
+			</if>
+			<if test="qaAState != null">
+				AND A.QAASTATE = #{qaAState,jdbcType=VARCHAR}
+			</if>
+			<if test="qaQState == null">
+				<![CDATA[
+					AND A.QAQState <> '5'
+				]]>
+			</if>
+			<if test="qaQState != null">
+				AND A.QAQSTATE = #{qaQState,jdbcType=VARCHAR}
+			</if>
+			<if test="stage != null">
+				AND A.STAGE = #{stage,jdbcType=VARCHAR}
+			</if>
+			<if test="questionDiv != null">
+				AND A.QUESTIONDIV = #{questionDiv,jdbcType=VARCHAR}
+			</if>
+			<if test="causeDiv != null">
+				AND A.CAUSEDIV = #{causeDiv,jdbcType=VARCHAR}
+			</if>
+			<if test="moduleId != null">
+				AND A.MODULEID = #{moduleId,jdbcType=VARCHAR}
+			</if>
+			<if test="questionInfo != null">
+				<![CDATA[
+					AND (A.QATitle LIKE CONCAT('%',#{questionInfo,jdbcType=VARCHAR}, '%') 
+					OR A.QUESTIONINFO LIKE CONCAT('%',#{questionInfo,jdbcType=VARCHAR}, '%'))
+				]]>
+			</if>
+			<if test="questioner != null">
+				<![CDATA[
+					AND (A.QUESTIONER LIKE CONCAT('%',#{questioner,jdbcType=VARCHAR} , '%') OR
+					G.USERNAME LIKE CONCAT('%',#{questioner,jdbcType=VARCHAR}, '%'))
+				]]>
+			</if>
+			<if test="answerer != null">
+				<![CDATA[
+					AND (A.ANSWERER LIKE CONCAT('%',#{answerer,jdbcType=VARCHAR}, '%') OR
+					H.USERNAME LIKE CONCAT('%', #{answerer,jdbcType=VARCHAR}, '%'))
+				]]>
+			</if>
+			<if test="questionDateFrom != null">
+				<![CDATA[
+					AND DATE_FORMAT(A.QUESTIONDATE, '%Y/%m/%d') >= #{questionDateFrom,jdbcType=DATE}
+				]]>
+			</if>
+			<if test="questionDateTo != null">
+				<![CDATA[
+					AND DATE_FORMAT(A.QUESTIONDATE, '%Y/%m/%d') <= #{questionDateTo,jdbcType=DATE}
+				]]>
+			</if>
+			<if test="expDateFrom != null">
+				<![CDATA[
+					AND DATE_FORMAT(A.EXPDATE, '%Y/%m/%d') >= #{expDateFrom,jdbcType=DATE}
+				]]>
+			</if>
+			<if test="expDateTo != null">
+				<![CDATA[
+					AND DATE_FORMAT(A.EXPDATE, '%Y/%m/%d') <= #{expDateTo,jdbcType=DATE}
+				]]>
+			</if>
+			<if test="answerDateFrom != null">
+				<![CDATA[
+					AND DATE_FORMAT(A.ANSWERDATE, '%Y/%m/%d') >= #{answerDateFrom,jdbcType=DATE}
+				]]>
+			</if>
+			<if test="answerDateTo != null">
+				<![CDATA[
+					AND DATE_FORMAT(A.ANSWERDATE, '%Y/%m/%d') <= #{answerDateTo,jdbcType=DATE}
+				]]>
+			</if>
+			<choose>
+				<when test="user.companyFlg == '0'.toString()">
+					<if test="rdbShanai == '0'.toString()">
+						AND A.COMPANYFLG = '0'
+					</if>
+					<if test="rdbShanai == '1'.toString()">
+						AND A.COMPANYFLG = '1'
+					</if>
+					<if test="rdbShanai == '2'.toString()">
+						AND ( A.COMPANYFLG = '0' OR A.COMPANYFLG = '1')
+					</if>
+				</when>
+				<when test="companyFlg == '1'.toString()">
+					AND A.COMPANYFLG = '1'
+				</when>
+			</choose>
+		</where>
+	</sql>
+
+	<select id="customQASearchByPage" parameterType="QA0050ArgValue"
+		resultType="CustomQADTO">
+		<include refid="customQASearchSql" />
+
+		ORDER BY
+		A.QANO
+
+	</select>
+
+	<sql id="excelExportSql">
+	<![CDATA[
+		SELECT
+			A.QANO,
+			DATE_FORMAT(a.QUESTIONDATE, '%Y/%m/%d') AS QUESTIONDATE,
+			DATE_FORMAT(a.EXPDATE, '%Y/%m/%d') AS EXPDATE,
+			G.USERNAME AS QUESTIONER,
+			F.MODULENAME,
+			F.MODULEID,
+			J. NAME AS STAGE,
+			L. NAME AS QUESTIONDIV,
+			A.QUESTIONINFO,
+			A.AATTACHEDINFO AS AATTACHEDINFO,
+			A.ANSWERINFO AS ANSWERINFO,
+			DATE_FORMAT(a.ANSWERDATE, '%Y/%m/%d') AS ANSWERDATE,
+			H.USERNAME AS ANSWERER,
+			I. NAME AS QAASTATE,
+			K. NAME AS CAUSEDIV,
+			D. NAME AS QAQSTATE
+		FROM
+			tbl_QA AS A
+		LEFT JOIN tbl_UserMaster AS G ON G.USERID = A.QUESTIONER
+		LEFT JOIN tbl_UserMaster AS H ON H.USERID = A.ANSWERER
+		LEFT JOIN tbl_GeneralMaster AS J ON J. CODE = A.STAGE
+		AND J.KBN = '01'
+		LEFT JOIN tbl_GeneralMaster AS D ON D. CODE = A.QAQSTATE
+		AND D.KBN = '06'
+		LEFT JOIN tbl_GeneralMaster AS I ON I. CODE = A.QAASTATE
+		AND I.KBN = '07'
+		LEFT JOIN tbl_GeneralMaster AS K ON K. CODE = A.CAUSEDIV
+		AND K.KBN = 'RQ'
+		LEFT JOIN tbl_GeneralMaster AS L ON L. CODE = A.QUESTIONDIV
+		AND L.KBN = 'QD'
+		LEFT JOIN tbl_ModuleMaster AS F ON F.PROJECTID = A.PROJECTID
+		AND F.GROUPID = A.GROUPID
+		AND F.MODULEID = A.MODULEID
+	]]>
+	</sql>
+
+	<select id="excelExportQA0050" parameterType="java.util.Map"
+		resultType="ExcelQADTO">
+		<include refid="excelExportSql" />
+	<![CDATA[
+		WHERE
+			QANO IN ( 
+				SELECT 
+					QANO 
+				FROM ( 
+	]]>
+		<include refid="customQASearchSql" />
+	<![CDATA[		
+				 ) QA
+			) 
+		ORDER BY
+		A.QUESTIONDATE
+	]]>
+	</select>
+
+	<select id="excelExportQA0060" parameterType="java.util.Map"
+		resultType="ExcelQADTO">
+		<include refid="excelExportSql" />
+		<![CDATA[
+		WHERE
+			QANO IN ( 
+				SELECT 
+					QANO 
+				FROM ( 
+	]]>
+		<include refid="baseQASearchflg6Sql" />
+	<![CDATA[		
+				 ) QA
+			) 
+		ORDER BY
+		A.QUESTIONDATE
+	]]>
+	</select>
+
+
+	<insert id="insertQA" parameterType="QA0010ArgValue">
+		insert into tbl_qa
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				PROJECTID,
+			</if>
+			<if test="qaNo != null">
+				QANO,
+			</if>
+			<if test="groupId != null">
+				GROUPID,
+			</if>
+			<if test="moduleId != null">
+				MODULEID,
+			</if>
+			<if test="companyFlg != null">
+				COMPANYFLG,
+			</if>
+
+			QAQSTATE,
+
+			<if test="stage != null">
+				STAGE,
+			</if>
+			<if test="questioner != null">
+				QUESTIONER,
+			</if>
+			<if test="questionDate != null">
+				QUESTIONDATE,
+			</if>
+			<if test="expDate != null">
+				EXPDATE,
+			</if>
+			<if test="answerer != null">
+				ANSWERER,
+			</if>
+			<if test="qaTitle != null">
+				QATitle,
+			</if>
+			<if test="questionInfo != null">
+				QUESTIONINFO,
+			</if>
+			<if test="qattachedInfo != null">
+				QATTACHEDINFO,
+			</if>
+			<if test="questionDiv != null">
+				QUESTIONDIV,
+			</if>
+			<if test="relationQaNo != null">
+				RELATIONQANO,
+			</if>
+
+			UPDATERID,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="qaNo != null">
+				#{qaNo,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+				#{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleId != null">
+				#{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="companyFlg != null">
+				#{companyFlg,jdbcType=VARCHAR},
+			</if>
+
+			'1',
+
+			<if test="stage != null">
+				#{stage,jdbcType=VARCHAR},
+			</if>
+			<if test="questioner != null">
+				#{questioner,jdbcType=VARCHAR},
+			</if>
+			<if test="questionDate != null">
+				#{questionDate,jdbcType=VARCHAR},
+			</if>
+			<if test="expDate != null">
+				#{expDate,jdbcType=VARCHAR},
+			</if>
+			<if test="answerer != null">
+				#{answerer,jdbcType=VARCHAR},
+			</if>
+			<if test="qaTitle != null">
+				#{qaTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="questionInfo != null">
+				#{questionInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="qattachedInfo != null">
+				#{qattachedInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="questionDiv != null">
+				#{questionDiv,jdbcType=VARCHAR},
+			</if>
+			<if test="relationQaNo != null">
+				#{relationQaNo,jdbcType=VARCHAR},
+			</if>
+			<if test="user.userId != null">
+				#{user.userId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateQAInfo" parameterType="QA0010ArgValue">
+	<![CDATA[
+		UPDATE tbl_QA
+		SET QAQSTATE = '2',
+		 UPDATERID = #{user.userId,jdbcType=VARCHAR}
+		WHERE
+			PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND QANO = #{relationQaNo,jdbcType=VARCHAR}
+		AND UPDATETIME = #{updateTime,jdbcType=TIMESTAMP}
+	]]>
+	</update>
+
+	<select id="getUpdateTime" resultType="java.util.Date">
+	<![CDATA[
+		SELECT
+			updatetime
+		FROM
+			tbl_qa
+		WHERE
+			PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND QANO = #{qaNo,jdbcType=VARCHAR}
+	]]>
+	</select>
+
+	<select id="getQANoLock" resultType="java.util.Date">
+	<![CDATA[
+		SELECT
+			UPDATETIME
+		FROM
+			tbl_qa
+		WHERE
+			PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND QANO = #{qaNo,jdbcType=VARCHAR}
+		AND UPDATETIME = #{updateTime,jdbcType=TIMESTAMP}
+	]]>
+	</select>
+
+	<select id="getQAInfo" parameterType="java.util.Map" resultType="QADetailDTO">
+	<![CDATA[
+		SELECT
+			PROJECTID ,
+			QANO,
+			GROUPID,
+			MODULEID,
+			COMPANYFLG,
+			QAQSTATE,
+			QAASTATE,
+			STAGE,
+			QUESTIONER,
+			DATE_FORMAT(QUESTIONDATE, '%Y/%m/%d') AS QUESTIONDATE,
+			DATE_FORMAT(EXPDATE, '%Y/%m/%d') AS EXPDATE,
+			ANSWERER,
+			DATE_FORMAT(ANSWERDATE, '%Y/%m/%d') AS ANSWERDATE,
+			QATitle,
+			QATitle_CN,
+			QUESTIONINFO,
+			QUESTIONINFO_CN,
+			QATTACHEDINFO,
+			ANSWERINFO,
+			ANSWERINFO_CN,
+			AATTACHEDINFO,
+			QUESTIONDIV,
+			CAUSEDIV,
+			RELATIONQANO,
+			REMARK,
+			REMARK_CN,
+			UPDATERID,
+			UPDATETIME
+		FROM
+	]]>
+		<choose>
+			<when test="serialNum == null ">
+				tbl_QA
+			</when>
+			<otherwise>
+				tbl_QAHistory
+			</otherwise>
+		</choose>
+	<![CDATA[
+		WHERE
+			PROJECTID=#{projectId,jdbcType=VARCHAR}
+		AND
+			QANO=#{qaNo,jdbcType=VARCHAR}
+	]]>
+		<if test="serialNum != null ">
+			<![CDATA[
+				 AND
+				 	SERIALNUM=#{serialNum,jdbcType=VARCHAR}
+			]]>
+		</if>
+	</select>
+
+
+	<update id="saveQA" parameterType="QA0020ArgValue">
+		UPDATE tbl_qa
+		<set>
+			<if test="qattachedInfo != null">
+				QATTACHEDINFO = #{qattachedInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="aattachedInfo != null">
+				AATTACHEDINFO = #{aattachedInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="qaAState != null">
+				QAASTATE = #{qaAState,jdbcType=VARCHAR},
+			</if>
+			<if test="questionDiv != null">
+				QUESTIONDIV = #{questionDiv,jdbcType=CHAR},
+			</if>
+		<![CDATA[
+			GROUPID =  #{groupId,jdbcType=VARCHAR} ,
+			MODULEID = #{moduleId,jdbcType=VARCHAR} ,
+			COMPANYFLG = #{companyFlg,jdbcType=VARCHAR},
+			STAGE = #{stage,jdbcType=VARCHAR},
+			QUESTIONER = #{questioner,jdbcType=VARCHAR},
+			QUESTIONDATE = #{questionDate,jdbcType=TIMESTAMP},
+			EXPDATE = #{expDate,jdbcType=TIMESTAMP},
+			QATitle = #{qaTitle,jdbcType=VARCHAR},
+			ANSWERER = #{answerer,jdbcType=VARCHAR},
+			QUESTIONINFO = #{questionInfo,jdbcType=VARCHAR},
+			RELATIONQANO = #{relationQaNo,jdbcType=VARCHAR},
+			ANSWERINFO = #{answerInfo,jdbcType=VARCHAR},
+			ANSWERDATE = #{answerDate,jdbcType=TIMESTAMP},
+			REMARK = #{remark,jdbcType=VARCHAR},
+			CAUSEDIV = #{causeDiv,jdbcType=VARCHAR},
+			UPDATERID = #{user.userId,jdbcType=VARCHAR},
+		]]>
+		</set>
+		WHERE
+		PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND QANO =
+		#{qaNo,jdbcType=VARCHAR}
+		AND UPDATETIME =
+		#{updateTime,jdbcType=TIMESTAMP}
+
+	</update>
+
+	<update id="changeQAState" parameterType="QA0020ArgValue">
+		UPDATE tbl_qa
+		<set>
+			<if test="remark != null ">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="causeDiv != null">
+				CAUSEDIV = #{causeDiv,jdbcType=CHAR},
+			</if>
+			<if test="aattachedInfo != null">
+				AATTACHEDINFO = #{aattachedInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="answerInfo != null">
+				ANSWERINFO = #{answerInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="answerDate != null">
+				ANSWERDATE = #{answerDate,jdbcType=VARCHAR},
+			</if>
+			<if test="qaQState != null">
+				QAQSTATE = #{qaQState,jdbcType=VARCHAR},
+			</if>
+			<if test="qaAState != null">
+				QAASTATE = #{qaAState,jdbcType=VARCHAR},
+			</if>
+			<if test="answerer != null">
+				ANSWERER = #{answerer,jdbcType=VARCHAR},
+			</if>
+			UPDATERID = #{user.userId,jdbcType=VARCHAR},
+		</set>
+		<![CDATA[
+		WHERE
+			PROJECTID =  #{projectId,jdbcType=VARCHAR}
+			AND QANO =  #{qaNo,jdbcType=VARCHAR}
+			AND UPDATETIME =  #{updateTime,jdbcType=TIMESTAMP}
+		]]>
+	</update>
+
+	<update id="acceptRelationQA" parameterType="QA0020ArgValue">
+		update tbl_qa
+		<set>
+			QAQSTATE = #{qaQState,jdbcType=VARCHAR},
+			UPDATERID =
+			#{user.userId,jdbcType=VARCHAR},
+		</set>
+		<![CDATA[
+		WHERE
+			PROJECTID =  #{projectId,jdbcType=VARCHAR}
+			AND QANO =  #{qaNo,jdbcType=VARCHAR}
+			AND UPDATETIME =  #{updateTime,jdbcType=TIMESTAMP}
+		]]>
+	</update>
+
+	<select id="getRelationQANo" parameterType="QA0020ArgValue"
+		resultType="java.util.Map">
+	<![CDATA[
+		SELECT
+			RELATIONQANO,
+			UPDATETIME
+		FROM
+			tbl_qa
+		WHERE
+			PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND QANO =  #{qaNo,jdbcType=VARCHAR}
+	]]>
+	</select>
+
+</mapper>
