@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mbp.qa.dao.BugMapper">
+	<resultMap id="BaseResultMap" type="com.mbp.qa.model.po.Bug">
+		<id column="PROJECTID" jdbcType="VARCHAR" property="projectId" />
+		<id column="BUGNO" jdbcType="VARCHAR" property="bugNo" />
+		<result column="SYSTEMTYPE" jdbcType="VARCHAR" property="systemType" />
+		<result column="GROUPID" jdbcType="VARCHAR" property="groupId" />
+		<result column="MODULEID" jdbcType="VARCHAR" property="moduleId" />
+		<result column="PRIORFLG" jdbcType="CHAR" property="priorFlg" />
+		<result column="COMPANYFLG" jdbcType="CHAR" property="companyFlg" />
+		<result column="BUGSTATE" jdbcType="CHAR" property="bugState" />
+		<result column="OCCURDATE" jdbcType="TIMESTAMP" property="occurDate" />
+		<result column="TESTSPEC" jdbcType="VARCHAR" property="testSpec" />
+		<result column="STAGE" jdbcType="CHAR" property="stage" />
+		<result column="PHENOMENON" jdbcType="CHAR" property="phenomenon" />
+		<result column="BUGTYPE" jdbcType="CHAR" property="bugType" />
+		<result column="CONDDIV" jdbcType="CHAR" property="condDiv" />
+		<result column="DETECTOR" jdbcType="VARCHAR" property="detector" />
+		<result column="DEVELOPER" jdbcType="VARCHAR" property="developer" />
+		<result column="PLNVERIFIER" jdbcType="VARCHAR" property="plnVerifier" />
+		<result column="VERIFIER" jdbcType="VARCHAR" property="verifier" />
+		<result column="EXPDATE" jdbcType="TIMESTAMP" property="expDate" />
+		<result column="BUGINFO" jdbcType="VARCHAR" property="bugInfo" />
+		<result column="BUGINFO_CN" jdbcType="VARCHAR" property="bugInfoCn" />
+		<result column="ATTACHEDINFO" jdbcType="VARCHAR" property="attachedInfo" />
+		<result column="MODSTARTDATE" jdbcType="TIMESTAMP" property="modStartDate" />
+		<result column="MODENDDATE" jdbcType="TIMESTAMP" property="modEndDate" />
+		<result column="GENCAUSE" jdbcType="VARCHAR" property="genCause" />
+		<result column="GENCAUSE_CN" jdbcType="VARCHAR" property="genCauseCn" />
+		<result column="SOLVEMTD" jdbcType="VARCHAR" property="solveMtd" />
+		<result column="SOLVEMTD_CN" jdbcType="VARCHAR" property="solveMtdCn" />
+		<result column="REPLIER" jdbcType="VARCHAR" property="replier" />
+		<result column="CONFIRMER" jdbcType="VARCHAR" property="confirmer" />
+		<result column="CORRPRONAME" jdbcType="VARCHAR" property="corrproName" />
+		<result column="CORRMODNAME" jdbcType="VARCHAR" property="corrmodName" />
+		<result column="CAUSEDIV" jdbcType="CHAR" property="causeDiv" />
+		<result column="SPECCAUSEDIV" jdbcType="CHAR" property="specCauseDiv" />
+		<result column="SOLVEDIV" jdbcType="CHAR" property="solveDiv" />
+		<result column="VERIFYDATE" jdbcType="TIMESTAMP" property="verifyDate" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="REMARK_CN" jdbcType="VARCHAR" property="remarkCn" />
+		<result column="UPDATERID" jdbcType="VARCHAR" property="updaterId" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="STATE" jdbcType="TIMESTAMP" property="state" />
+		<result column="SOLVEMtd" jdbcType="TIMESTAMP" property="solveMtd" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		PROJECTID, BUGNO, SYSTEMTYPE, GROUPID, MODULEID, PRIORFLG,
+		COMPANYFLG, BUGSTATE,
+		OCCURDATE, TESTSPEC, STAGE, PHENOMENON, BUGTYPE,
+		CONDDIV, DETECTOR,
+		DEVELOPER, PLNVERIFIER,
+		VERIFIER, EXPDATE, BUGINFO,
+		BUGINFO_CN, ATTACHEDINFO, MODSTARTDATE, MODENDDATE,
+		GENCAUSE,
+		GENCAUSE_CN, SOLVEMTD, SOLVEMTD_CN, REPLIER, CONFIRMER, CORRPRONAME,
+		CORRMODNAME,
+		CAUSEDIV, SPECCAUSEDIV, SOLVEDIV, VERIFYDATE,
+		REMARK,
+		REMARK_CN, UPDATERID,
+		UPDATETIME
+	</sql>
+
+</mapper>

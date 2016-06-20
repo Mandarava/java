@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mbp.qa.dao.UserMasterMapper">
+	<resultMap id="BaseResultMap" type="com.mbp.qa.model.po.UserMaster">
+		<id column="USERID" jdbcType="VARCHAR" property="userId" />
+		<result column="USERNAME" jdbcType="VARCHAR" property="userName" />
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+		<result column="USERPREVL" jdbcType="CHAR" property="userPrevl" />
+		<result column="COMPANYFLG" jdbcType="CHAR" property="companyFlg" />
+		<result column="MAILADDRESS" jdbcType="VARCHAR" property="mailAddress" />
+		<result column="CUSTOMERCODE" jdbcType="VARCHAR" property="customerCode" />
+		<result column="DEPARTMENTID" jdbcType="VARCHAR" property="departmentId" />
+		<result column="CLASSID" jdbcType="VARCHAR" property="classId" />
+		<result column="DELETEFLG" jdbcType="CHAR" property="deleteFlg" />
+		<result column="UPDATERID" jdbcType="VARCHAR" property="updaterId" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		USERID, USERNAME, PASSWORD, USERPREVL, COMPANYFLG,
+		MAILADDRESS,
+		CUSTOMERCODE,
+		DEPARTMENTID, CLASSID, DELETEFLG,
+		UPDATERID,
+		UPDATETIME
+	</sql>
+
+	<select id="validLogin" parameterType="java.util.Map"
+		resultType="Integer">
+	<![CDATA[
+		SELECT
+			count(1)
+		FROM
+			tbl_UserMaster
+		WHERE
+			USERID = #{userId,jdbcType=VARCHAR}
+		AND PASSWORD = #{pwd,jdbcType=VARCHAR}
+		AND DELETEFLG = '0'
+	]]>
+	</select>
+
+	<select id="getMemberInfo" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			B.USERNAME
+		FROM
+			tbl_ProjectMemberMaster AS A
+		LEFT JOIN tbl_UserMaster AS B ON A.USERID = B.USERID
+		WHERE
+			A.PROJECTID = #{projectId,jdbcType=VARCHAR}
+		ORDER BY
+			B.USERID
+	]]>
+	</select>
+
+	<select id="getBugMember" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			B.USERID,
+			B.USERNAME
+		FROM
+			tbl_ProjectMemberMaster AS A
+		LEFT JOIN tbl_UserMaster AS B ON A.USERID = B.USERID
+		WHERE
+			A.PROJECTID = #{projectId,jdbcType=VARCHAR}
+		ORDER BY
+			B.USERID
+	]]>
+	</select>
+
+	<select id="getBugPlnverifier" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			B.USERID,
+			B.USERNAME
+		FROM
+			tbl_ProjectMemberMaster AS A
+		RIGHT JOIN tbl_UserMaster AS B ON A.USERID = B.USERID
+		WHERE
+			A.PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND A.WORKTYPE IN('1','2')
+		ORDER BY
+			B.USERID
+	]]>
+	</select>
+
+
+
+	<select id="queryUserByPage" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			USERID,
+			USERNAME,
+			(CASE WHEN USERPREVL = 0 THEN '普通ユーザー' ELSE '管理員' END) USERPREVL,
+			MAILADDRESS,
+			(CASE WHEN COMPANYFLG = 0 THEN '社内' ELSE '社外' END) COMPANYFLG,
+			str_to_date(UPDATETIME, '%Y-%m-%d') AS UPDATETIME,
+			(CASE WHEN DELETEFLG = 0 THEN '' ELSE '已删除' END) DELETEFLG
+	]]>
+		FROM
+			tbl_UserMaster
+<!-- 		WHERE DELETEFLG = '0' -->
+		where  1=1
+		<if test="arg.searchKey != null">
+		 <![CDATA[
+			and  (  USERID LIKE  CONCAT('%', #{arg.searchKey,jdbcType=VARCHAR} ,'%') 
+			     	or USERNAME LIKE  CONCAT('%', #{arg.searchKey,jdbcType=VARCHAR},'%'))
+		]]>
+		</if>
+		ORDER BY 
+			USERID
+	
+	</select>
+
+	
+	<select id="searchUserByPage" resultMap="BaseResultMap" >
+	<![CDATA[
+		SELECT
+			USERID,
+			USERNAME,
+			(CASE WHEN USERPREVL = 0 THEN '普通ユーザー' ELSE '管理員' END) USERPREVL,
+			MAILADDRESS,
+			(CASE WHEN COMPANYFLG = 0 THEN '社内' ELSE '社外' END) COMPANYFLG,
+			str_to_date(UPDATETIME, '%Y-%m-%d') AS UPDATETIME,
+			(CASE WHEN DELETEFLG = 0 THEN '' ELSE '已删除' END) DELETEFLG
+	]]>
+		FROM
+			tbl_UserMaster
+		<if test="arg.searchKey != null">
+		 <![CDATA[
+			where  (  USERID LIKE  CONCAT('%', #{arg.searchKey,jdbcType=VARCHAR} ,'%') 
+			     	or USERNAME LIKE  CONCAT('%', #{arg.searchKey,jdbcType=VARCHAR},'%'))
+		]]>
+		</if>
+		ORDER BY 
+			USERID
+	
+	</select>
+	
+
+
+	<!--判断ユーサー信息是否管理员 -->
+	<select id="userPrevlCheck" parameterType="String" resultType="String">
+	<![CDATA[
+		SELECT
+			USERPREVL
+		FROM
+			tbl_UserMaster
+		WHERE
+			USERID = #{userId}
+		AND DELETEFLG = '0'
+	]]>
+	</select>
+
+
+	<select id="getUserInfo" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			USERID,
+			USERNAME,
+			USERPREVL,
+			COMPANYFLG,
+			MAILADDRESS,
+			DELETEFLG,
+			CUSTOMERCODE,
+			DEPARTMENTID,
+			CLASSID
+		FROM
+			tbl_UserMaster
+		WHERE
+			USERID = #{userId,jdbcType=VARCHAR}
+		AND DELETEFLG = '0'
+	]]>
+	</select>
+
+	<select id="getQuestioner" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			B.USERID,
+			B.USERNAME
+		FROM
+			tbl_ProjectMemberMaster AS A
+		LEFT JOIN tbl_UserMaster AS B ON A.USERID = B.USERID
+		WHERE
+			A.PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND DELETEFLG = '0'
+		ORDER BY
+			B.USERID
+	]]>
+	</select>
+
+	<select id="getAnswerer" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			A.USERID,
+			B.USERNAME
+		FROM
+			(
+				SELECT
+					USERID,
+					WORKTYPE
+				FROM
+					tbl_ProjectMemberMaster
+				WHERE
+					PROJECTID = #{projectId,jdbcType=VARCHAR}
+			) A
+		LEFT JOIN tbl_UserMaster B ON A.USERID = B.USERID
+		WHERE
+			B.DELETEFLG = '0'
+	]]>
+		<choose>
+			<when
+				test="companyFlg == '0'.toString() and workType != '1'.toString() and workType != '3'.toString()">
+				AND A.WORKTYPE IN('1','3')
+				AND B.COMPANYFLG='0'
+			</when>
+			<otherwise>
+				AND (A.WORKTYPE IN('1','2','3') OR B.COMPANYFLG='1')
+			</otherwise>
+		</choose>
+	</select>
+
+	<!--ユーサーID存在性的チェック -->
+	<select id="userIdCheck" parameterType="java.lang.String"
+		resultType="String">
+		select
+		count(*)
+		from tbl_UserMaster
+		where USERID =
+		#{userId,jdbcType=VARCHAR}
+		and
+		DELETEFLG = '0'
+	</select>
+
+	<!--插入ユーサー信息 -->
+	<insert id="newUser" parameterType="java.util.Map">
+		insert into
+		tbl_UserMaster(USERID,USERNAME,PASSWORD,USERPREVL,COMPANYFLG,MAILADDRESS,CUSTOMERCODE,DEPARTMENTID,CLASSID,DELETEFLG,UPDATERID,UPDATETIME)
+		values
+		(#{userId,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{userPrevl,jdbcType=CHAR},
+		#{companyFlg,jdbcType=CHAR},#{mailAddress,jdbcType=VARCHAR},#{customerCode,jdbcType=VARCHAR},#{departmentId,jdbcType=VARCHAR},
+		#{classId,jdbcType=VARCHAR},'0',#{updaterId,jdbcType=VARCHAR},NOW());
+	</insert>
+
+	<!--取得当前ユーザー信息 -->
+	<select id="userMsg" resultType="USE0031RetValue">
+	 <![CDATA[
+		select
+		A.USERID AS USERID,
+		A.USERNAME AS USERNAME,
+		A.USERPREVL AS USERPREVL,
+		A.PASSWORD AS PASSWORD,
+		A.COMPANYFLG AS COMPANYFLG,
+		A.CUSTOMERCODE AS CUSTOMERCODE,
+		A.DEPARTMENTID AS DEPARTMENTID,
+		A.CLASSID AS CLASSID,
+		A.MAILADDRESS AS MAILADDRESS,
+		A.DELETEFLG AS DELETEFLG,
+		B.`NAME` AS NAME,
+		C.CUSTOMERNAME AS CUSTOMERNAME,
+		D.DEPARTMENTNAME AS DEPARTMENTNAME,
+		E.CLASSNAME AS CLASSNAME
+		from tbl_UserMaster AS A
+		LEFT JOIN tbl_generalmaster AS B
+    	ON A.USERPREVL = B.CODE
+		and B.KBN ='UP'
+		LEFT JOIN tbl_customermaster  AS C
+		ON A.CUSTOMERCODE = C.CUSTOMERCODE
+		and C.DELETEFLG = '0'
+		LEFT JOIN tbl_departmentmaster AS D
+		ON A.DEPARTMENTID = D.DEPARTMENTID
+		and D.DELETEFLG = '0'
+		LEFT JOIN tbl_classmaster AS E
+		ON A.CLASSID = E.CLASSID
+		and E.DELETEFLG = '0'
+		and A.DEPARTMENTID = E.DEPARTMENTID
+		where USERID = #{userId,jdbcType=VARCHAR}
+		]]>
+	</select>
+	
+		<!--取得普通ユーザー信息 -->
+	<select id="userMsgCom" resultMap="BaseResultMap">
+	 <![CDATA[
+		select
+		USERID,
+		USERNAME,
+		PASSWORD,
+		MAILADDRESS
+		from tbl_UserMaster
+		where USERID = #{userId,jdbcType=VARCHAR}
+		and DELETEFLG = '0'
+		]]>
+	</select>
+	
+	<!--数据更新 -->
+	<update id="updateUser" parameterType="java.util.Map">
+		update tbl_UserMaster
+		<set>
+			<if test="userName != null">
+				USERNAME =#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD= #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="userPrevl != null">
+				USERPREVL = #{userPrevl,jdbcType=CHAR},
+			</if>
+			<if test="companyFlg != null">
+				COMPANYFLG = #{companyFlg,jdbcType=CHAR},
+			</if>
+			<if test="customerCode != null">
+				CUSTOMERCODE = #{customerCode,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENTID =#{departmentId,jdbcType=VARCHAR},
+			</if>
+			<if test="classId != null">
+				CLASSID = #{classId,jdbcType=VARCHAR},
+			</if>
+			<if test="mailAddress != null">
+				MAILADDRESS = #{mailAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteFlg != null">
+				DELETEFLG = #{deleteFlg,jdbcType=CHAR},
+			</if>
+			<if test="updaterId != null">
+				UPDATERID = #{updaterId,jdbcType=VARCHAR},
+			</if>
+			UPDATETIME = NOW()
+		</set>
+		where USERID = #{userId,jdbcType=VARCHAR}
+	</update>
+	
+	<!--数据更新 -->
+	<update id="updateUserpart" parameterType="java.util.Map">
+		update tbl_UserMaster
+		<set>
+			<if test="userName != null">
+				USERNAME =#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD= #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="mailAddress != null">
+				MAILADDRESS = #{mailAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="updaterId != null">
+				UPDATERID = #{updaterId,jdbcType=VARCHAR},
+			</if>
+			UPDATETIME = NOW()
+		</set>
+		where USERID = #{userId,jdbcType=VARCHAR}
+	</update>
+
+	<!--检索ユーザー信息 -->
+	<select id="userMsgSelectByPage" resultType="java.util.Map">
+		select
+		a.USERID AS USERID,
+		a.USERNAME AS USERNAME
+		from
+		tbl_usermaster AS a
+		where a.DELETEFLG = '0'
+		<if test="arg.customerCode != null">
+		and	a.CUSTOMERCODE = #{arg.customerCode,jdbcType=VARCHAR}
+		</if>
+		<if test="arg.departmentId != null">
+		and a.DEPARTMENTID = #{arg.departmentId,jdbcType=VARCHAR}
+		</if>
+		<if test="arg.classId != null">
+		and a.CLASSID = #{arg.classId,jdbcType=VARCHAR}
+		</if>
+		<if test="arg.users != null"> 
+		 <![CDATA[
+		and  (  a.USERID LIKE  CONCAT('%', #{arg.users,jdbcType=VARCHAR} ,'%') 
+			     or a.USERNAME LIKE  CONCAT('%', #{arg.users,jdbcType=VARCHAR},'%'))
+		]]>
+		</if>
+		and a.USERID NOT IN (
+		select
+		USERID
+		from
+		tbl_projectmembermaster AS b
+		where b.PROJECTID = #{arg.projectId,jdbcType=VARCHAR} 
+		<![CDATA[ and b.WORKTYPE <>'1' ]]>
+		)
+		order by a.USERID
+	</select>
+
+	<select id="getDetecto" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+		A.USERID ,
+		A.USERNAME
+		FROM
+		TBL_CUSTOMERMASTER AS B
+		INNER
+		JOIN
+		TBL_USERMASTER AS A
+		ON B.CUSTOMERCODE = A.CUSTOMERCODE
+		WHERE
+		(
+		A.DELETEFLG = '0' )
+		AND ( A.USERID
+		IN ( SELECT
+		USERID
+		FROM
+		TBL_PROJECTMEMBERMASTER
+		WHERE
+		( PROJECTID =
+		#{projectId,jdbcType=VARCHAR} ) ) )
+		AND ( B.DELETEFLG = '0' )
+		ORDER BY
+		A.USERNAME
+	</select>
+
+	<select id="getDeveloper" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+		A.USERID ,
+		A.USERNAME
+		FROM
+		TBL_CUSTOMERMASTER AS B
+		INNER
+		JOIN
+		TBL_USERMASTER AS A
+		ON B.CUSTOMERCODE = A.CUSTOMERCODE
+		WHERE
+		(
+		A.DELETEFLG = 0 )
+		AND ( A.USERID
+		IN ( SELECT
+		USERID
+		FROM
+		TBL_PROJECTMEMBERMASTER
+		WHERE
+		( PROJECTID =
+		#{projectId,jdbcType=VARCHAR} ) ) )
+		AND ( B.DELETEFLG = '0' )
+		ORDER BY
+		A.USERNAME
+	</select>
+
+	<select id="getVerifier" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+		A.USERID ,
+		A.USERNAME
+		FROM
+		tbl_CustomerMaster AS B
+		INNER
+		JOIN
+		tbl_UserMaster AS A
+		ON B.CUSTOMERCODE = A.CUSTOMERCODE
+		WHERE
+		(
+		A.DELETEFLG = 0 )
+		AND ( A.USERID
+		IN ( SELECT
+		USERID
+		FROM
+		tbl_ProjectMemberMaster
+		WHERE
+		( PROJECTID =
+		#{projectId,jdbcType=VARCHAR} ) ) )
+		AND ( B.DELETEFLG = '0' )
+		ORDER BY
+		A.USERNAME
+	</select>
+
+	<!--检索ユーザー信息 -->
+	<select id="listUserMsgByPage" resultType="java.util.Map">
+		select
+		a.USERID AS USERID,
+		a.USERNAME AS USERNAME
+		from
+		tbl_usermaster AS a
+		where a.DELETEFLG = '0'
+		<if test="arg.customerCode != null">
+		and	a.CUSTOMERCODE = #{arg.customerCode,jdbcType=VARCHAR}
+		</if>
+		<if test="arg.departmentId != null">
+		and a.DEPARTMENTID = #{arg.departmentId,jdbcType=VARCHAR}
+		</if>
+		<if test="arg.classId != null">
+		and a.CLASSID = #{arg.classId,jdbcType=VARCHAR}
+		</if>
+		<if test="arg.users != null">
+		<![CDATA[
+		and  (  a.USERID LIKE  CONCAT('%', #{arg.users,jdbcType=VARCHAR} ,'%') 
+			     or a.USERNAME LIKE  CONCAT('%', #{arg.users,jdbcType=VARCHAR},'%'))
+		]]>
+		</if>
+		and a.USERID NOT IN
+		(
+		select
+		USERID
+		from
+		tbl_projectmembermaster AS b
+		where b.PROJECTID =
+		#{arg.projectId,jdbcType=VARCHAR}
+		)
+		order by a.USERID
+	</select>
+
+	<!--取得当前用户所属部门 -->
+	<select id="userCustomerCode" resultType="java.util.Map">
+		select
+		CUSTOMERCODE,
+		DEPARTMENTID
+		from tbl_UserMaster
+		where USERID =
+		#{userId}
+		and DELETEFLG
+		=
+		'0'
+	</select>
+
+	<!--ユーザー名を取得 -->
+	<select id="getBugUser" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<![CDATA[
+		A.USERID,
+		A.USERNAME
+		FROM
+		tbl_CustomerMaster B,
+		tbl_UserMaster A
+		WHERE
+		A.DELETEFLG = 0
+		AND A.USERID IN (
+		SELECT
+		USERID
+		FROM
+		tbl_ProjectMemberMaster
+		WHERE
+		PROJECTID = #{projectId,jdbcType=VARCHAR})
+		AND A.CUSTOMERCODE = B.CUSTOMERCODE
+		AND B.DELETEFLG = '0'
+		ORDER BY
+		A.USERNAME
+		]]>
+	</select>
+	
+	<!--删除用户信息（deleteFlg = 1 ） -->
+	<update id="deleteUser" parameterType="String" >
+		update tbl_UserMaster
+		set
+		DELETEFLG = '1'
+		where USERID = #{userId,jdbcType=VARCHAR}
+	</update>
+	<!-- 取得项目经理信息 -->
+	<select id="projectManagerMsg" resultType="PRO0030RetValue">
+		SELECT 
+		C.USERID AS MANAGERID,
+		C.USERNAME AS MANAGERNAME
+		FROM tbl_projectmaster AS A,
+    		 tbl_projectmembermaster AS B,
+			 tbl_usermaster AS C
+		WHERE A.PROJECTID = #{projectId,jdbcType=VARCHAR}
+		AND B.PROJECTID = A.PROJECTID
+		AND B.WORKTYPE = '1'
+		AND C.USERID = B.USERID
+	</select>
+</mapper>

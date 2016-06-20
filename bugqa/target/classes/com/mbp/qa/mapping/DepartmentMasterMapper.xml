@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mbp.qa.dao.DepartmentMasterMapper">
+	<resultMap id="BaseResultMap" type="com.mbp.qa.model.po.DepartmentMaster">
+		<id column="CUSTOMERCODE" jdbcType="VARCHAR" property="customerCode" />
+		<id column="DEPARTMENTID" jdbcType="VARCHAR" property="departmentId" />
+		<result column="DEPARTMENTNAME" jdbcType="VARCHAR" property="departmentName" />
+		<result column="DELETEFLG" jdbcType="CHAR" property="deleteFlg" />
+		<result column="UPDATERID" jdbcType="VARCHAR" property="updaterId" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	
+	<!-- 自定义的resultMap -->
+	<resultMap id="DeptInfoResultMap" type="com.mbp.qa.model.dto.DeptInfo">
+		<result column="CLASSID" jdbcType="VARCHAR" property="classid" />
+		<result column="CLASSNAME" jdbcType="VARCHAR" property="classname" />
+		<result column="DEPARTMENTID" jdbcType="VARCHAR" property="departmentid" />
+		<result column="DEPARTMENTNAME" jdbcType="VARCHAR" property="departmentname" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		CUSTOMERCODE, DEPARTMENTID, DEPARTMENTNAME, DELETEFLG,
+		UPDATERID, UPDATETIME
+	</sql>
+
+	<!--得意先变换 取得当前选中的得意先的所有部门信息 -->
+	<select id="departmentMsg" resultMap="BaseResultMap">
+		select
+		DEPARTMENTID,DEPARTMENTNAME
+		from
+		tbl_DepartmentMaster
+		where
+		DELETEFLG =
+		'0'
+		and CUSTOMERCODE =
+		#{customerCode,jdbcType=VARCHAR}
+		ORDER BY
+		DEPARTMENTID
+	</select>
+	
+	<!-- CST0030客户编辑（取得部门信息） -->
+	<select id="getCustomerDeptInfo" parameterType="String"
+		resultMap="DeptInfoResultMap">
+		SELECT
+			CLASSID,
+			CLASSNAME,
+			dep.DEPARTMENTID,
+			dep.DEPARTMENTNAME
+		FROM
+			tbl_departmentmaster dep
+		LEFT JOIN tbl_classmaster cm ON (
+			cm.DEPARTMENTID = dep.DEPARTMENTID
+			AND cm.CUSTOMERCODE = dep.CUSTOMERCODE
+			AND cm.DELETEFLG = '0'
+		)
+		WHERE
+			dep.CUSTOMERCODE = #{customerCode,jdbcType=VARCHAR}
+		AND dep.DELETEFLG = '0'	
+	</select>
+	
+	<!-- CST0040取得部门信息 -->
+	<select id="getDepartmentInfoByPage" parameterType="String" resultMap="BaseResultMap">
+		SELECT CUSTOMERCODE,DEPARTMENTID,DEPARTMENTNAME from
+		tbl_departmentmaster WHERE CUSTOMERCODE =
+		#{customerCode,jdbcType=VARCHAR} AND DELETEFLG = '0'
+	</select>
+
+	<!-- CST0040追加部门时的部门ID存在性check -->
+	<select id="departmentIdCheck" parameterType="String"
+		resultType="int">
+		SELECT
+			count(1)
+		FROM
+			tbl_departmentmaster
+		WHERE
+			CUSTOMERCODE = #{customerCode,jdbcType=VARCHAR}
+		AND 
+			DEPARTMENTID = #{departmentId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- CST0040追加部门 -->
+	<insert id="addDepartment" parameterType="DepartmentMaster">
+		INSERT INTO tbl_departmentmaster
+		(CUSTOMERCODE,DEPARTMENTID,DEPARTMENTNAME,DELETEFLG,UPDATERID,UPDATETIME)
+		VALUES(#{customerCode,jdbcType=VARCHAR},#{departmentId,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},"0",#{updaterId,jdbcType=VARCHAR},NOW())
+	</insert>
+
+	<!-- CST0040删除部门信息 -->
+	<update id="deleteDept" parameterType="String" >
+		UPDATE 
+		tbl_departmentmaster SET DELETEFLG = "1" 
+		WHERE CUSTOMERCODE = #{customerCode,jdbcType=VARCHAR}
+		AND DEPARTMENTID =
+		#{departmentId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- CST0040保存部门 -->
+	<update id="saveDepartment" parameterType="DepartmentMaster">
+		update
+		tbl_departmentmaster set 
+		CUSTOMERCODE=#{customerCode,jdbcType=VARCHAR},
+		DEPARTMENTID=#{departmentId,jdbcType=VARCHAR},
+		DEPARTMENTNAME =#{departmentName,jdbcType=CHAR},
+		DELETEFLG = "0",
+		UPDATERID= #{updaterId,jdbcType=VARCHAR},
+		UPDATETIME = NOW()
+		WHERE
+		CUSTOMERCODE= #{customerCode,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

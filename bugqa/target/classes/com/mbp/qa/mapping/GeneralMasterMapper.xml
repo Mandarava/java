@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mbp.qa.dao.GeneralMasterMapper">
+	<resultMap id="BaseResultMap" type="com.mbp.qa.model.po.GeneralMaster">
+		<id column="KBN" jdbcType="CHAR" property="kbn" />
+		<id column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		KBN, CODE, NAME, REMARK
+	</sql>
+
+	<cache />
+
+	<select id="getKbn01" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = '01'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbn02" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = '02'
+		AND CODE > '0'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbn03" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_GeneralMaster
+		WHERE
+			KBN = '03'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbn04" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_GeneralMaster
+		WHERE
+			KBN = '04'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbn06" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			NAME,
+			CODE
+		FROM
+			tbl_GeneralMaster
+		WHERE
+			KBN = '06'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbn07" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			NAME,
+			CODE
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = '07'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<!-- <select id="getKbnQS" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			NAME,
+			CODE
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'QS'
+		ORDER BY
+			CODE
+	]]>
+	</select> -->
+
+	<select id="getKbnQD" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			NAME,
+			CODE
+		FROM
+			tbl_GeneralMaster
+		WHERE
+			KBN = 'QD'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnUp" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_GeneralMaster
+		WHERE
+			KBN = 'UP'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnE1" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'E1'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnBT" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'BT'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnCO" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'CO'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+	<select id="getKbnPH" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'PH'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnR1" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'R1'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnR2" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'R2'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnR3" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'R3'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnR4" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'R4'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnR5" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'R5'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnR6" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'R6'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnRD" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'RD'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnRQ" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			NAME,
+			CODE
+		FROM
+			tbl_GeneralMaster
+		WHERE
+			KBN = 'RQ'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnTD" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			NAME,
+			CODE
+		FROM
+			tbl_GeneralMaster
+		WHERE
+			KBN = 'TD'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnYS" resultMap="BaseResultMap">
+	<![CDATA[
+		SELECT
+			CODE,
+			NAME
+		FROM
+			tbl_generalmaster
+		WHERE
+			KBN = 'YS'
+		ORDER BY
+			CODE
+	]]>
+	</select>
+
+	<select id="getKbnReason" resultMap="BaseResultMap">
+	<![CDATA[
+	SELECT
+	    NAME,
+	    CODE
+	FROM
+	    tbl_GeneralMaster
+	WHERE
+		KBN >='R1'
+	AND
+		KBN<='R6'	
+	ORDER BY
+	    CODE
+	]]>
+	</select>
+
+	<!-- 通用信息 -->
+	<select id="generalMsgByPage" resultMap="BaseResultMap" useCache="false">
+		SELECT
+		KBN,
+		CODE,
+		NAME,
+		REMARK
+		FROM
+		tbl_GeneralMaster
+		<if test="searchKey != null">
+		<![CDATA[
+		WHERE ( KBN LIKE CONCAT('%', #{arg.searchKey,jdbcType=CHAR},'%') 
+			or CODE LIKE CONCAT('%', #{arg.searchKey,jdbcType=VARCHAR}, '%')
+			or NAME LIKE CONCAT('%',#{arg.searchKey,jdbcType=VARCHAR},'%'))
+		]]>
+		</if>
+		ORDER BY
+		KBN
+	</select>
+	
+	<!-- 修改通用信息 -->
+	<update id="updateGeneralMsg" parameterType="java.util.Map">
+		update tbl_GeneralMaster
+		<set>
+			<if test="name != null">
+				NAME =#{name,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null">
+				,REMARK= #{remark,jdbcType=VARCHAR}
+			</if>
+			<if test="remark == null">
+				,REMARK= ''
+			</if>
+		</set>
+		where KBN = #{kbn,jdbcType=CHAR}
+		and CODE = #{code,jdbcType=VARCHAR}
+	</update>
+</mapper>
