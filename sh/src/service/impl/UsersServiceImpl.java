@@ -2,6 +2,7 @@ package service.impl;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,9 +19,11 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public boolean usersLogin(Users user) {
 		Transaction tx = null;
+		Session session = null;
+		boolean flag = false;
 		String hql = "";
 		try {
-			Session session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			hql = "from Users where username= ? and password= ? ";
 			Query query = session.createQuery(hql);
@@ -29,18 +32,20 @@ public class UsersServiceImpl implements UsersService {
 			List list = query.list();
 			tx.commit();
 			if (null != list && list.size() > 0) {
-				return true;
-			} else {
-				return false;
+				flag = true;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.commit();
-			return false;
-		} finally {
+		} catch (HibernateException e) {
 			if (tx != null) {
-				tx = null;
+				tx.rollback();
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
 			}
 		}
+
+		return flag;
 	}
 }

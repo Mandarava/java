@@ -5,7 +5,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
-public class MyHibernateSessionFactory {
+public final class MyHibernateSessionFactory {
 
 	private static SessionFactory sessionFactory;
 
@@ -20,8 +20,8 @@ public class MyHibernateSessionFactory {
 					.applySettings(configuration.getProperties()).buildServiceRegistry();
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 			return sessionFactory;
-		} else {
-			return sessionFactory;
 		}
+
+		return sessionFactory;
 	}
 }

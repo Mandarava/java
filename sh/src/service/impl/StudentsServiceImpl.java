@@ -2,6 +2,7 @@ package service.impl;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,31 +18,30 @@ public class StudentsServiceImpl implements StudentsService {
 	 */
 	@Override
 	public List<Students> queryAllStudents() {
-
 		Transaction tx = null;
+		Session session = null;
 		List<Students> list = null;
 		String hql = "";
 		try {
-			Session session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			hql = "from Students";
 			Query query = session.createQuery(hql);
 			list = query.list();
 			tx.commit();
-
-			return list;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.commit();
-			return list;
-
-		} finally {
+		} catch (HibernateException e) {
 			if (tx != null) {
-				tx = null;
+				tx.rollback();
 			}
-
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
 		}
+
+		return list;
 	}
 
 	/**
@@ -53,23 +53,26 @@ public class StudentsServiceImpl implements StudentsService {
 	@Override
 	public Students queryStudentsBySid(String sid) {
 		Transaction tx = null;
+		Session session = null;
 		Students students = null;
 		try {
-			Session session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			students = (Students) session.get(Students.class, sid);
 			tx.commit();
-			return students;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.commit();
-			return students;
-		} finally {
+		} catch (HibernateException e) {
 			if (tx != null) {
-				tx = null;
+				tx.rollback();
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
 			}
 		}
+
+		return students;
 	}
 
 	/**
@@ -82,21 +85,27 @@ public class StudentsServiceImpl implements StudentsService {
 	public boolean addStudents(Students student) {
 		student.setSid(getNewSid());
 		Transaction tx = null;
+		Session session = null;
+		boolean flag = false;
 		try {
-			Session session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			session.save(student);
 			tx.commit();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.commit();
-			return false;
-		} finally {
+			flag = true;
+		} catch (HibernateException e) {
 			if (tx != null) {
-				tx = null;
+				tx.rollback();
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
 			}
 		}
+
+		return flag;
 	}
 
 	/**
@@ -108,21 +117,26 @@ public class StudentsServiceImpl implements StudentsService {
 	@Override
 	public boolean updateStudents(Students student) {
 		Transaction tx = null;
+		Session session = null;
+		boolean flag = false;
 		try {
-			Session session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			session.update(student);
 			tx.commit();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.commit();
-			return false;
-		} finally {
+			flag = true;
+		} catch (HibernateException e) {
 			if (tx != null) {
-				tx = null;
+				tx.rollback();
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
 			}
 		}
+		return flag;
 	}
 
 	/**
@@ -134,22 +148,27 @@ public class StudentsServiceImpl implements StudentsService {
 	@Override
 	public boolean deleteStudents(String sid) {
 		Transaction tx = null;
+		Session session = null;
+		boolean flag = false;
 		try {
-			Session session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			Students students = (Students) session.get(Students.class, sid);
 			session.delete(students);
 			tx.commit();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.commit();
-			return false;
-		} finally {
+			flag = true;
+		} catch (HibernateException e) {
 			if (tx != null) {
-				tx = null;
+				tx.rollback();
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
 			}
 		}
+		return flag;
 	}
 
 	/**
@@ -159,10 +178,11 @@ public class StudentsServiceImpl implements StudentsService {
 	 */
 	private String getNewSid() {
 		Transaction tx = null;
+		Session session = null;
+		String sid = null;
 		String hql = "";
-		String sid = "";
 		try {
-			Session session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			hql = "select max(sid) from Students";
 			Query query = session.createQuery(hql);
@@ -176,16 +196,19 @@ public class StudentsServiceImpl implements StudentsService {
 				sid = "S" + sid;
 			}
 			tx.commit();
-			return sid;
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.commit();
-			return null;
-		} finally {
+
+		} catch (HibernateException e) {
 			if (tx != null) {
-				tx = null;
+				tx.rollback();
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
 			}
 		}
+		return sid;
 	}
 
 }
