@@ -32,7 +32,11 @@ public class UsersServiceImpl implements UsersService {
 			// query.setParameter(1, user.getPassword());
 			query.setParameter("name", user.getUsername());
 			query.setParameter("password", user.getPassword());
-			List list = query.list();
+			// 分页
+			query.setFirstResult(0);
+			query.setMaxResults(10);
+			
+			List<Users> list = query.list();
 			tx.commit();
 			if (null != list && list.size() > 0) {
 				flag = true;
