@@ -33,6 +33,7 @@ public class UsersServiceImpl implements UsersService {
 			query.setParameter("password", user.getPassword());
 			// query.setParameter(0, user.getUsername());
 			// query.setParameter(1, user.getPassword());
+			
 			// 分页
 			query.setFirstResult(0);
 			query.setMaxResults(10);
