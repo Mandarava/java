@@ -11,7 +11,7 @@ public final class HibernateUtil {
 		Transaction tx = null;
 		Session session = null;
 		try {
-			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 			session.update(entity);
 			tx.commit();
@@ -26,7 +26,7 @@ public final class HibernateUtil {
 		Transaction tx = null;
 		Session session = null;
 		try {
-			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 			session.delete(entity);
 			tx.commit();
@@ -41,7 +41,7 @@ public final class HibernateUtil {
 		Transaction tx = null;
 		Session session = null;
 		try {
-			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 			session.save(entity);
 			tx.commit();
@@ -55,7 +55,7 @@ public final class HibernateUtil {
 	public static Object get(Class clazz, Serializable id) {
 		Session session = null;
 		try {
-			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			session = MyHibernateSessionFactory.getSessionFactory().openSession();
 			Object object = session.get(clazz, id);
 			return object;
 		} finally {
