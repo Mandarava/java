@@ -36,8 +36,8 @@ public class StudentsServiceImpl implements StudentsService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (session != null) {
-				session.close();
+			if (tx != null) {
+				tx = null;
 			}
 		}
 
@@ -67,8 +67,8 @@ public class StudentsServiceImpl implements StudentsService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (session != null) {
-				session.close();
+			if (tx != null) {
+				tx = null;
 			}
 		}
 
@@ -100,11 +100,10 @@ public class StudentsServiceImpl implements StudentsService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (session != null) {
-				session.close();
+			if (tx != null) {
+				tx = null;
 			}
 		}
-
 		return flag;
 	}
 
@@ -132,8 +131,8 @@ public class StudentsServiceImpl implements StudentsService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (session != null) {
-				session.close();
+			if (tx != null) {
+				tx = null;
 			}
 		}
 		return flag;
@@ -164,8 +163,8 @@ public class StudentsServiceImpl implements StudentsService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (session != null) {
-				session.close();
+			if (tx != null) {
+				tx = null;
 			}
 		}
 		return flag;
@@ -204,8 +203,8 @@ public class StudentsServiceImpl implements StudentsService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (session != null) {
-				session.close();
+			if (tx != null) {
+				tx = null;
 			}
 		}
 		return sid;

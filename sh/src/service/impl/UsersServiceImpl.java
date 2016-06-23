@@ -25,10 +25,13 @@ public class UsersServiceImpl implements UsersService {
 		try {
 			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
-			hql = "from Users where username= ? and password= ? ";
+			// hql = "from Users where username= ? and password= ? ";
+			hql = "from Users where username= :name and password= :password ";
 			Query query = session.createQuery(hql);
-			query.setParameter(0, user.getUsername());
-			query.setParameter(1, user.getPassword());
+			// query.setParameter(0, user.getUsername());
+			// query.setParameter(1, user.getPassword());
+			query.setParameter("name", user.getUsername());
+			query.setParameter("password", user.getPassword());
 			List list = query.list();
 			tx.commit();
 			if (null != list && list.size() > 0) {
@@ -41,8 +44,8 @@ public class UsersServiceImpl implements UsersService {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (session != null) {
-				session.close();
+			if (tx != null) {
+				tx = null;
 			}
 		}
 
