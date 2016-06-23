@@ -24,14 +24,15 @@ public class UsersServiceImpl implements UsersService {
 		String hql = "";
 		try {
 			session = MyHibernateSessionFactory.getSessionFactory().getCurrentSession();
+			// session = HibernateUtil2.INSTANCE.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			// hql = "from Users where username= ? and password= ? ";
 			hql = "from Users where username= :name and password= :password ";
 			Query query = session.createQuery(hql);
-			// query.setParameter(0, user.getUsername());
-			// query.setParameter(1, user.getPassword());
 			query.setParameter("name", user.getUsername());
 			query.setParameter("password", user.getPassword());
+			// query.setParameter(0, user.getUsername());
+			// query.setParameter(1, user.getPassword());
 			// 分页
 			query.setFirstResult(0);
 			query.setMaxResults(10);
