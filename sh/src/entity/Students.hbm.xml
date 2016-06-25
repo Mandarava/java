@@ -11,6 +11,6 @@
 		<property name="sname" column="sname" length="10" not-null="true" type="java.lang.String" />
 		<property name="gender" column="gender" type="java.lang.String" />
 		<property name="birthday" column="birthday" type="date" />
-		<property name="address" column="" type="java.lang.String" />
+		<property name="address" column="address" type="java.lang.String" />
 	</class>
 </hibernate-mapping>
