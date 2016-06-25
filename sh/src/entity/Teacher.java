@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Set;
+
 public class Teacher {
 
 	private int id;
@@ -7,6 +9,8 @@ public class Teacher {
 	private String name;
 
 	private Institute institute;
+
+	private Set<Students> students;
 
 	public int getId() {
 		return id;
@@ -30,6 +34,14 @@ public class Teacher {
 
 	public void setInstitute(Institute institute) {
 		this.institute = institute;
+	}
+
+	public Set<Students> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Set<Students> students) {
+		this.students = students;
 	}
 
 }

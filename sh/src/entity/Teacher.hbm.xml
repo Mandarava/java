@@ -3,12 +3,16 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
-	<class name="entity.Teacher" table="`TEACHER`">
+<hibernate-mapping package="entity">
+	<class name="Teacher" table="`TEACHER`">
 		<id name="id">
 			<generator class="native" />
 		</id>
 		<property name="name" type="java.lang.String" />
 		<many-to-one name="institute" column="institute_id" cascade="none"></many-to-one>
+		<set name="students" table="teacher_student">
+			<key column="teacher_id" />
+			<many-to-many class="Students" column="student_id" />
+		</set>
 	</class>
 </hibernate-mapping>
