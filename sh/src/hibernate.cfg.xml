@@ -21,6 +21,8 @@
 		<mapping resource="entity/Users.hbm.xml" />
 		<mapping resource="entity/Teacher.hbm.xml" />
 		<mapping resource="entity/Institute.hbm.xml" />
+		<mapping resource="entity/Person.hbm.xml" />
+		<mapping resource="entity/IdCard.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
 	
