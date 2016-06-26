@@ -13,9 +13,28 @@
 		<property name="gender" column="gender" type="java.lang.String" />
 		<property name="birthday" column="birthday" type="date" />
 		<property name="address" column="address" type="java.lang.String" />
+		
 		<set name="teachers" table="teacher_student">
 			<key column="student_id" />
 			<many-to-many class="entity.Teacher" column="teacher_id"></many-to-many>
 		</set>
+		
+		<!-- <list name="teachers" >
+			<key column="student_id" />
+			<list-index column="student_index"/>
+			<many-to-many class="entity.Teacher" column="teacher_id"></many-to-many>
+		</list> -->
+		
+		<!-- <bag name="teachers" >
+			<key column="student_id" />
+			<many-to-many class="entity.Teacher" column="teacher_id"></many-to-many>
+		</bag> -->
+		
+		<!-- <map name="teachers" table="teacher_student">
+			<key column="student_id" />
+			<map-key type="String" column="name"/>
+			<many-to-many class="entity.Teacher" column="teacher_id"></many-to-many>
+		</map> -->
+		
 	</class>
 </hibernate-mapping>
