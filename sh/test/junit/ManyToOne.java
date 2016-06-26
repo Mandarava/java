@@ -1,5 +1,8 @@
 package junit;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,14 +22,22 @@ public class ManyToOne {
 			Institute institute = new Institute();
 			institute.setName("institute");
 
-			Teacher teacher = new Teacher();
-			teacher.setInstitute(institute);
-			teacher.setName("zhangsan");
+			Teacher teacher1 = new Teacher();
+			teacher1.setName("zhangsan");
+			// 建立对象的关联
+			teacher1.setInstitute(institute);
+
+			Set<Teacher> teachers = new HashSet<>();
+			teachers.add(teacher1);
+
+			// inverse = true 不维护关系，由teacher维护
+			institute.setTeachers(teachers);
 
 			session = HibernateUtil2.INSTANCE.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
 			session.save(institute);
-			session.save(teacher);
+			// use cascade to instead
+			// session.save(teacher);
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -52,9 +63,10 @@ public class ManyToOne {
 			tx = session.beginTransaction();
 			Teacher teacher = (Teacher) session.get(Teacher.class, id);
 			System.out.println("institute name : " + teacher.getInstitute().getName());
-//			Hibernate.initialize(teacher.getInstitute());
+			// Hibernate.initialize(teacher.getInstitute());
 			tx.commit();
-//			System.out.println("institute name : " + teacher.getInstitute().getName());
+			// System.out.println("institute name : " +
+			// teacher.getInstitute().getName());
 		} catch (HibernateException e) {
 			if (tx != null) {
 				tx.rollback();

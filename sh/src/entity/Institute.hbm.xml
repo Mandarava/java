@@ -9,7 +9,7 @@
 			<generator class="native" />
 		</id>
 		<property name="name" not-null="true" type="java.lang.String" />
-		<set name="teachers" cascade="all">
+		<set name="teachers" cascade="all" inverse="true">
 			<key column="institute_id" />
 			<one-to-many class="entity.Teacher" />
 		</set>
