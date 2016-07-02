@@ -8,6 +8,8 @@
 		<id name="id">
 			<generator class="native" />
 		</id>
+		<version name="version"></version>
+		<!-- <timestamp name="version"></timestamp> -->
 		<property name="name" not-null="true" type="java.lang.String" />
 		<!-- inverse不能使用在有序集合当中 -->
 		<set name="teachers" cascade="all" inverse="true">

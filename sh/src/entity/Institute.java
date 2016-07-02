@@ -10,6 +10,8 @@ public class Institute {
 
 	private Set<Teacher> teachers;
 
+	private int version;
+
 	public int getId() {
 		return id;
 	}
@@ -32,6 +34,14 @@ public class Institute {
 
 	public void setTeachers(Set<Teacher> teachers) {
 		this.teachers = teachers;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 }
